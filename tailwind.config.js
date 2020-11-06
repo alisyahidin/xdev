@@ -3,7 +3,14 @@ module.exports = {
     './pages/**/*.tsx',
     './components/**/*.tsx',
   ],
-  theme: {},
+  theme: {
+    container: {
+      center: true,
+      padding: {
+        default: '1rem'
+      }
+    },
+  },
   variants: {},
   plugins: [],
 }
