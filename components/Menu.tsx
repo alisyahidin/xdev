@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useMotionValue, useViewportScroll } from 'framer-motion';
 
 const duration = 0.3
 const menuVariants = (i: number) => ({
@@ -54,26 +54,49 @@ const closeVariants = {
   },
 }
 
+const getStrokeColor = {
+  dark: 'rgb(255, 255, 255)',
+  light: 'rgb(0, 0, 0)',
+}
+
 interface MenuProps {}
 
 const Menu: React.FC<MenuProps> = () => {
-  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const floatingMenuEl = useRef<HTMLButtonElement>(null)
+  const { scrollY } = useViewportScroll()
+  const strokeColor = useMotionValue<string>('rgb(255, 255, 255)')
+  const [showMenu, setShowMenu] = useState<boolean>(false)
+  const [disableMenu, setDisableMenu] = useState<boolean>(false)
+
+  const updateStrokeColor = useCallback(() => {
+    const currentSection = [...document.getElementsByTagName('section')]
+      .map(element => ({ bgColor: element.dataset?.bgColor, position: element.offsetTop }))
+      .filter(section => section.position <= window.scrollY + floatingMenuEl?.current?.offsetTop)
+      .pop()
+
+    !showMenu && strokeColor.set(getStrokeColor[currentSection.bgColor])
+  }, [showMenu])
+
+  useEffect(() => {
+    updateStrokeColor()
+    return scrollY.onChange(updateStrokeColor)
+  }, [updateStrokeColor, scrollY])
 
   return (<>
-    <button onClick={() => setShowMenu(prev => !prev)} className="fixed right-0 z-50" style={{ top: '50%', transform: 'translate(-50%, -50%)' }}>
+    <button disabled={disableMenu} ref={floatingMenuEl} onClick={() => setShowMenu(prev => !prev)} className="fixed right-0 z-50" style={{ top: '50%', transform: 'translate(-50%, -50%)' }}>
       <svg height="38px" viewBox="0 0 9.9375 8.1761" xmlns="http://www.w3.org/2000/svg">
         <g transform="translate(-100.03 -144.41)">
           <AnimatePresence>
-            {!showMenu && <g fill="none" stroke="#FFF" strokeWidth="0.7" strokeDasharray="8">
-              <motion.path variants={menuVariants(1)} initial="init" animate="show" exit="hide" d="m101.03 148.5h7.9375" />
-              <motion.path variants={menuVariants(2)} initial="init" animate="show" exit="hide" d="m101.03 145.85h7.9375" />
-              <motion.path variants={menuVariants(3)} initial="init" animate="show" exit="hide" d="m101.03 151.15h7.9375" />
+            {!showMenu && <g fill="none" strokeWidth="0.7" strokeDasharray="8">
+              <motion.path style={{ stroke: strokeColor }} variants={menuVariants(1)} initial="init" animate="show" exit="hide" d="m101.03 148.5h7.9375" />
+              <motion.path style={{ stroke: strokeColor }} variants={menuVariants(2)} initial="init" animate="show" exit="hide" d="m101.03 145.85h7.9375" />
+              <motion.path style={{ stroke: strokeColor }} variants={menuVariants(3)} initial="init" animate="show" exit="hide" d="m101.03 151.15h7.9375" />
             </g>}
           </AnimatePresence>
           <AnimatePresence>
-            {showMenu && <g fill="none" stroke="#FFF" strokeWidth="0.8" strokeDasharray="8">
-              <motion.path variants={closeVariants} initial="init" animate="show" exit="hide" d="m102.19 145.69 5.6127 5.6127" />
-              <motion.path variants={closeVariants} initial="init" animate="show" exit="hide" d="m102.19 151.31 5.6407-5.612" />
+            {showMenu && <g fill="none" strokeWidth="0.8" strokeDasharray="8">
+              <motion.path style={{ stroke: strokeColor }} variants={closeVariants} initial="init" animate="show" exit="hide" d="m102.19 145.69 5.6127 5.6127" />
+              <motion.path style={{ stroke: strokeColor }} variants={closeVariants} initial="init" animate="show" exit="hide" d="m102.19 151.31 5.6407-5.612" />
             </g>}
           </AnimatePresence>
         </g>
@@ -85,6 +108,8 @@ const Menu: React.FC<MenuProps> = () => {
         animate={{ left: 0 }}
         exit={{ left: '100%' }}
         transition={{ type: 'tween', duration: 1, ease: [0.15, 0.95, 0.5, 1] }}
+        onAnimationComplete={() => { setDisableMenu(false) }}
+        onAnimationStart={() => { strokeColor.set(getStrokeColor['dark']); setDisableMenu(true) }}
         className="fixed h-screen w-screen z-40"
         style={{ backgroundColor: '#111111' }}
       >

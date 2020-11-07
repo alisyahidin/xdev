@@ -16,7 +16,7 @@ const wrapperVariants = {
   },
   white: {
     backgroundColor: 'rgba(255, 255, 255, 1)',
-    boxShadow: 'rgb(61, 61, 61, 0.15) 0px 0px 10px',
+    boxShadow: 'rgb(61, 61, 61, 0.3) 0px 0px 10px',
     paddingBottom: '1.4rem',
     paddingTop: '1.4rem',
     transition: {

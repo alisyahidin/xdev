@@ -1,12 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
+import Section from 'components/Section';
 
 const Home: React.FC<{}> = () => {
   return (<>
     <Head>
       <title>xDev</title>
     </Head>
-    <section
+    <Section
       className="h-screen"
       style={{
         backgroundImage: 'url(/images/bg-head.png)',
@@ -22,17 +23,18 @@ const Home: React.FC<{}> = () => {
           Forward <br/>
         </h1>
       </div>
-    </section>
-    <section
+    </Section>
+    <Section
       className="h-screen"
+      light
     >
       <div className="container h-full flex items-center">
         <h1 className="text-5xl font-bold">
           Our Services
         </h1>
       </div>
-    </section>
-    <section
+    </Section>
+    <Section
       className="h-screen"
       style={{
         backgroundColor: '#111111'
@@ -43,17 +45,18 @@ const Home: React.FC<{}> = () => {
           Works
         </h1>
       </div>
-    </section>
-    <section
+    </Section>
+    <Section
       className="h-screen"
+      light
     >
       <div className="container h-full flex items-center">
         <h1 className="text-5xl font-bold">
           About
         </h1>
       </div>
-    </section>
-    <section
+    </Section>
+    <Section
       className="h-screen"
       style={{
         backgroundColor: '#111111'
@@ -66,8 +69,8 @@ const Home: React.FC<{}> = () => {
           Digital Transformation.
         </h1>
       </div>
-    </section>
-    <section
+    </Section>
+    <Section
       className="h-screen"
       style={{
         backgroundImage: 'url(/images/bg-footer.png)',
@@ -91,7 +94,7 @@ const Home: React.FC<{}> = () => {
           <p style={{ color: '#BDBDBD' }}>© 2020 xdevels.</p>
         </div>
       </div>
-    </section>
+    </Section>
   </>)
 }
 
