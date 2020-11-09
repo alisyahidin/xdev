@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useMotionValue, useViewportScroll } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { animate, AnimatePresence, motion, useMotionValue } from 'framer-motion';
+import { useSelector } from 'react-redux'
 
 const duration = 0.3
 const menuVariants = (i: number) => ({
@@ -62,28 +63,30 @@ const getStrokeColor = {
 interface MenuProps {}
 
 const Menu: React.FC<MenuProps> = () => {
-  const floatingMenuEl = useRef<HTMLButtonElement>(null)
-  const { scrollY } = useViewportScroll()
   const strokeColor = useMotionValue<string>('rgb(255, 255, 255)')
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [disableMenu, setDisableMenu] = useState<boolean>(false)
 
-  const updateStrokeColor = useCallback(() => {
-    const currentSection = [...document.getElementsByTagName('section')]
-      .map(element => ({ bgColor: element.dataset?.bgColor, position: element.offsetTop }))
-      .filter(section => section.position <= window.scrollY + floatingMenuEl?.current?.offsetTop)
-      .pop()
-
-    !showMenu && strokeColor.set(getStrokeColor[currentSection.bgColor])
-  }, [showMenu])
-
+  const floatMenuMode = useSelector(state => state.floatMenuMode);
   useEffect(() => {
-    updateStrokeColor()
-    return scrollY.onChange(updateStrokeColor)
-  }, [updateStrokeColor, scrollY])
+    !showMenu && strokeColor.set(getStrokeColor[floatMenuMode])
+  }, [floatMenuMode])
+
+  const handleAnimationStart = () => {
+    setDisableMenu(true)
+    if (!disableMenu) strokeColor.set(getStrokeColor['dark']);
+  }
+
+  const handleAnimationComplete = () => {
+    setDisableMenu(false)
+    !disableMenu && animate(strokeColor, getStrokeColor[floatMenuMode], {
+      duration: 0.2,
+      type: 'tween'
+    })
+  }
 
   return (<>
-    <button disabled={disableMenu} ref={floatingMenuEl} onClick={() => setShowMenu(prev => !prev)} className="fixed right-0 z-50" style={{ top: '50%', transform: 'translate(-50%, -50%)' }}>
+    <button disabled={disableMenu} onClick={() => setShowMenu(prev => !prev)} className="fixed right-0 z-50" style={{ top: '50%', transform: 'translate(-50%, -50%)' }}>
       <svg height="38px" viewBox="0 0 9.9375 8.1761" xmlns="http://www.w3.org/2000/svg">
         <g transform="translate(-100.03 -144.41)">
           <AnimatePresence>
@@ -108,8 +111,8 @@ const Menu: React.FC<MenuProps> = () => {
         animate={{ left: 0 }}
         exit={{ left: '100%' }}
         transition={{ type: 'tween', duration: 1, ease: [0.15, 0.95, 0.5, 1] }}
-        onAnimationComplete={() => { setDisableMenu(false) }}
-        onAnimationStart={() => { strokeColor.set(getStrokeColor['dark']); setDisableMenu(true) }}
+        onAnimationComplete={handleAnimationComplete}
+        onAnimationStart={handleAnimationStart}
         className="fixed h-screen w-screen z-40"
         style={{ backgroundColor: '#111111' }}
       >
