@@ -79,10 +79,7 @@ const Menu: React.FC<MenuProps> = () => {
 
   const handleAnimationComplete = () => {
     setDisableMenu(false)
-    !disableMenu && animate(strokeColor, getStrokeColor[floatMenuMode], {
-      duration: 0.2,
-      type: 'tween'
-    })
+    !disableMenu && strokeColor.set( getStrokeColor[floatMenuMode])
   }
 
   return (<>
