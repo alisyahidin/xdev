@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import Section from 'components/Section';
 import OurServices from 'components/homepage/OurServices';
+import Works from 'components/homepage/Works';
 
 const Home: React.FC<{}> = () => {
   return (<>
@@ -32,16 +33,12 @@ const Home: React.FC<{}> = () => {
       <OurServices />
     </Section>
     <Section
-      className="h-screen"
+      className="min-h-screen flex items-center overflow-hidden"
       style={{
         backgroundColor: '#111111'
       }}
     >
-      <div className="container h-full flex items-center">
-        <h1 className="text-white text-5xl font-bold">
-          Works
-        </h1>
-      </div>
+      <Works />
     </Section>
     <Section
       className="h-screen"
