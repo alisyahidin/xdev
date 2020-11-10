@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Section from 'components/Section';
+import OurServices from 'components/homepage/OurServices';
 
 const Home: React.FC<{}> = () => {
   return (<>
@@ -25,14 +26,10 @@ const Home: React.FC<{}> = () => {
       </div>
     </Section>
     <Section
-      className="h-screen"
+      className="min-h-screen flex items-center"
       light
     >
-      <div className="container h-full flex items-center">
-        <h1 className="text-5xl font-bold">
-          Our Services
-        </h1>
-      </div>
+      <OurServices />
     </Section>
     <Section
       className="h-screen"
