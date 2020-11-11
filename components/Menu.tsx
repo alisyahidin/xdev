@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { animate, AnimatePresence, motion, useMotionValue } from 'framer-motion';
+import { AnimatePresence, motion, useMotionValue } from 'framer-motion';
 import { useSelector } from 'react-redux'
 
 const duration = 0.3
@@ -69,7 +69,7 @@ const Menu: React.FC<MenuProps> = () => {
 
   const floatMenuMode = useSelector(state => state.floatMenuMode);
   useEffect(() => {
-    !showMenu && strokeColor.set(getStrokeColor[floatMenuMode])
+    if (!showMenu) strokeColor.set(getStrokeColor[floatMenuMode])
   }, [floatMenuMode])
 
   const handleAnimationStart = () => {
@@ -79,7 +79,7 @@ const Menu: React.FC<MenuProps> = () => {
 
   const handleAnimationComplete = () => {
     setDisableMenu(false)
-    !disableMenu && strokeColor.set( getStrokeColor[floatMenuMode])
+    if (!disableMenu) strokeColor.set( getStrokeColor[floatMenuMode])
   }
 
   return (<>

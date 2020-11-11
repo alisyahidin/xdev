@@ -59,7 +59,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
         </div>
         <div className="w-4/12 flex justify-center items-center">
           <p className="text-lg font-bold">What we do</p>
-          <Arrow className="ml-4" size={40} />
+          <Arrow className="ml-4" size={35} />
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Section from 'components/Section';
 import OurServices from 'components/homepage/OurServices';
 import Works from 'components/homepage/Works';
+import About from 'components/homepage/About';
 
 const Home: React.FC<{}> = () => {
   return (<>
@@ -44,11 +45,7 @@ const Home: React.FC<{}> = () => {
       className="h-screen"
       light
     >
-      <div className="container h-full flex items-center">
-        <h1 className="text-5xl font-bold">
-          About
-        </h1>
-      </div>
+      <About />
     </Section>
     <Section
       className="h-screen"

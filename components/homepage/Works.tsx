@@ -65,12 +65,12 @@ const Works: React.FC<WorksProps> = () => {
           </div>
         </div>
       </div>
-        <div className="mt-16">
-          <div className="flex items-center">
-            <p className="text-lg font-bold">See more</p>
-            <Arrow className="ml-4" size={35} circleSize={16} secondaryColor="#B72842" primaryColor="#FFFFFF" />
-          </div>
+      <div className="mt-16">
+        <div className="flex items-center">
+          <p className="text-lg font-bold">See more</p>
+          <Arrow className="ml-4" size={40} circleSize={18} secondaryColor="#B72842" primaryColor="#FFFFFF" />
         </div>
+      </div>
     </div>
   );
 };
