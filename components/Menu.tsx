@@ -120,6 +120,7 @@ interface MenuProps {}
 const Menu: React.FC<MenuProps> = () => {
   const strokeColor = useMotionValue<string>('rgb(255, 255, 255)')
   const [showMenu, setShowMenu] = useState<boolean>(false)
+  const [disableMenu, setDisableMenu] = useState<boolean>(false)
 
   const floatMenuMode = useSelector((state: { floatMenuMode: 'string' }) => state.floatMenuMode);
   useEffect(() => {
@@ -129,7 +130,7 @@ const Menu: React.FC<MenuProps> = () => {
 
   return (<>
     <button
-      // disabled={}
+      disabled={disableMenu}
       onClick={() => setShowMenu(prev => !prev)}
       className="fixed right-0 z-50"
       style={{ top: '50%', transform: 'translate(-50%, -50%)' }}
@@ -159,6 +160,8 @@ const Menu: React.FC<MenuProps> = () => {
         animate="show"
         exit="hide"
         transition={{ type: 'tween', duration: 1, ease: [0.15, 0.95, 0.5, 1] }}
+        onAnimationStart={() => setDisableMenu(true)}
+        onAnimationComplete={() => setDisableMenu(false)}
         className="fixed flex h-screen w-screen p-20 z-40"
         style={{ backgroundColor: '#111111' }}
       >
