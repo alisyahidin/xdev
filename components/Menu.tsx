@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { animate, AnimatePresence, motion, transform, useMotionValue } from 'framer-motion';
 import { useSelector } from 'react-redux';
+import clsx from 'clsx';
 
 const duration = 0.3
 const menuVariants = (i: number) => ({
@@ -100,19 +101,49 @@ const sideMenuVariants = {
   },
 }
 
-const itemSideMenuVariants = {
-  show: {
-    opacity: 1,
-    transition: {
-      delay: 0.4
+interface ItemSideMenuOrchestration {
+  id: 'menu-list' | 'line' | 'menu-haeader',
+  index: number
+}
+
+const delayOrchestration = {
+  'menu-list': (index: number) => (index * 0.1) + 0.4,
+  'line': (index: number) => (index * 0.1) + 0.6,
+  'menu-header': (index: number) => (index * 0.1) + 0.6
+}
+
+const itemSideMenuVariants = (key = 'y') => ({
+  show: (data: ItemSideMenuOrchestration) => {
+    return {
+      opacity: 1,
+      [key]: 0,
+      transition: {
+        delay: data ? delayOrchestration[data.id](data.index) : 1
+      }
     }
   },
   hide: {
     opacity: 1,
+    [key]: 0
   },
   init: {
     opacity: 0,
+    [key]: 20
   },
+})
+
+const lineVariants = {
+  init: { strokeDashoffset: 195 },
+  show: (data: ItemSideMenuOrchestration) => {
+    return {
+      strokeDashoffset: 0,
+      transition: {
+        delay: data ? delayOrchestration[data.id](data.index) : 1,
+        duration: 0.3
+      }
+    }
+  },
+  hide: { strokeDashoffset: 195 }
 }
 
 interface MenuProps {}
@@ -167,28 +198,31 @@ const Menu: React.FC<MenuProps> = () => {
       >
         <div style={{ color: '#828282' }} className="flex-1 w-full h-full flex flex-col justify-center items-start">
           {menus.map((menu, index) => (
-            <a
+            <motion.a
               key={index}
+              variants={itemSideMenuVariants()}
+              custom={{ id: 'menu-list', index: index + 1 }}
               href={`#${menu.href}`}
-              className="flex items-center mb-4 hover:menu-active"
+              className={clsx(["flex items-center mb-4 hover:menu-active", location.hash === `#${menu.href}` && 'menu-active'])}
               onClick={() => setShowMenu(false)}
             >
               {menu.title[0]}
               <h2 className="text-4xl mb-1 ml-6">{menu.title[1]}</h2>
-            </a>
+            </motion.a>
           ))}
         </div>
         <svg className="mx-20" width=".5mm" viewBox="0 0 .5 195.07" strokeDasharray="195" xmlns="http://www.w3.org/2000/svg">
           <motion.path
-            initial={{ strokeDashoffset: 195 }}
-            animate={{ strokeDashoffset: 0, transition: { delay: 0.2 } }}
+            variants={lineVariants}
+            custom={{ id: 'line', index: 1 }}
             style={{ fill: 'none', strokeWidth: 0.5, stroke: '#828282' }}
             d="m0.39687 0.39687v194.28"
           />
         </svg>
         <div style={{ color: '#F2F2F2' }} className="flex-1 w-full h-full flex flex-col justify-center items-start">
           <motion.svg
-            variants={itemSideMenuVariants}
+            variants={itemSideMenuVariants('x')}
+            custom={{ id: 'menu-header', index: 1 }}
             className="mb-12"
             height={66}
             viewBox="0 0 245 66"
@@ -200,21 +234,35 @@ const Menu: React.FC<MenuProps> = () => {
             <path fill="#FFFFFF" d="M159.485 65.9997C151.501 65.9997 145.213 63.9856 140.622 59.9575C136.031 55.9293 133.635 50.073 133.436 42.3886V39.1351C133.702 31.8224 136.13 26.121 140.722 22.0309C145.379 17.8788 151.601 15.8028 159.386 15.8028C165.041 15.8028 169.799 16.8873 173.658 19.0563C177.584 21.1633 180.512 24.076 182.441 27.7943C184.437 31.5125 185.435 35.7886 185.435 40.6224V42.8533C185.435 43.4731 185.203 44.0308 184.737 44.5266C184.271 44.9604 183.672 45.1773 182.94 45.1773H151.002V45.828C151.135 48.7406 151.9 51.0956 153.297 52.8927C154.695 54.6899 156.724 55.5885 159.386 55.5885C161.049 55.5885 162.413 55.2786 163.478 54.6589C164.542 53.9772 165.507 53.1716 166.372 52.242C166.971 51.5603 167.437 51.1575 167.769 51.0336C168.169 50.8477 168.768 50.7547 169.566 50.7547H181.942C182.541 50.7547 183.04 50.9406 183.439 51.3125C183.905 51.6223 184.138 52.0561 184.138 52.6139C184.138 54.2251 183.14 56.0843 181.144 58.1913C179.214 60.2983 176.386 62.1265 172.66 63.6758C168.934 65.2251 164.542 65.9997 159.485 65.9997ZM167.869 35.9745V35.7886C167.869 32.752 167.104 30.3661 165.574 28.6309C164.11 26.8337 162.047 25.9351 159.386 25.9351C156.791 25.9351 154.728 26.8337 153.198 28.6309C151.734 30.3661 151.002 32.752 151.002 35.7886V35.9745H167.869Z" />
             <path fill="#FFFFFF" d="M211.307 65.0702C210.376 65.0702 209.644 64.8842 209.112 64.5124C208.646 64.0786 208.247 63.4899 207.914 62.7462L189.05 19.614L188.851 18.7774C188.851 18.2196 189.05 17.7549 189.45 17.383C189.915 16.9492 190.481 16.7323 191.146 16.7323H202.425C203.888 16.7323 204.853 17.383 205.319 18.6844L216.597 47.2223L227.975 18.6844C228.441 17.383 229.406 16.7323 230.87 16.7323H242.148C242.747 16.7323 243.279 16.9492 243.745 17.383C244.211 17.7549 244.444 18.2196 244.444 18.7774L244.244 19.614L225.38 62.7462C225.048 63.4899 224.615 64.0786 224.083 64.5124C223.551 64.8842 222.819 65.0702 221.887 65.0702H211.307Z" />
           </motion.svg>
-          <p className="text-xl font-bold mb-4">Contact Us</p>
-          <div className="flex items-center mb-4">
+          <motion.p
+            variants={itemSideMenuVariants()}
+            custom={{ id: 'menu-header', index: 2 }}
+            className="text-xl font-bold mb-4"
+          >
+            Contact Us
+          </motion.p>
+          <motion.div
+            variants={itemSideMenuVariants()}
+            custom={{ id: 'menu-header', index: 3 }}
+            className="flex items-center mb-4"
+          >
             <svg className="mr-2" width="16" height="20" viewBox="0 0 13 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="13" height="20" rx="4" fill="white"/>
               <rect x="1" y="1" width="11" height="18" rx="3" fill="#333333"/>
               <path d="M4 1H9C9 1.55228 8.55228 2 8 2H5C4.44772 2 4 1.55228 4 1Z" fill="#F7F7F7"/>
             </svg>
             +62 817 614262
-          </div>
-          <div className="flex items-center">
+          </motion.div>
+          <motion.div
+            variants={itemSideMenuVariants()}
+            custom={{ id: 'menu-header', index: 4 }}
+            className="flex items-center"
+          >
             <svg className="mr-2" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill="white" fillRule="evenodd" clipRule="evenodd" d="M3.99992 2.6665C2.52716 2.6665 1.33325 3.86041 1.33325 5.33317V10.6665C1.33325 12.1393 2.52716 13.3332 3.99992 13.3332H11.9999C13.4727 13.3332 14.6666 12.1393 14.6666 10.6665V5.33317C14.6666 3.86041 13.4727 2.6665 11.9999 2.6665H3.99992ZM13.1728 4.23264C12.9331 3.95309 12.5123 3.92072 12.2327 4.16033L7.99992 7.78845L3.76711 4.16033C3.48756 3.92072 3.0667 3.95309 2.82708 4.23264C2.58747 4.51219 2.61984 4.93306 2.89939 5.17267L7.56606 9.17267C7.81572 9.38667 8.18412 9.38667 8.43378 9.17267L13.1004 5.17267C13.38 4.93306 13.4124 4.51219 13.1728 4.23264Z" />
             </svg>
             Hello@xdev.com
-          </div>
+          </motion.div>
         </div>
       </motion.div>}
     </AnimatePresence>
