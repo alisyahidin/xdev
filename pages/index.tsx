@@ -11,6 +11,7 @@ const Home: React.FC<{}> = () => {
       <title>xDev</title>
     </Head>
     <Section
+      id="home"
       className="h-screen"
       style={{
         backgroundImage: 'url(/images/bg-head.png)',
@@ -28,12 +29,14 @@ const Home: React.FC<{}> = () => {
       </div>
     </Section>
     <Section
+      id="services"
       className="min-h-screen flex items-center"
       light
     >
       <OurServices />
     </Section>
     <Section
+      id="works"
       className="min-h-screen flex items-center overflow-hidden"
       style={{
         backgroundColor: '#111111'
@@ -42,12 +45,14 @@ const Home: React.FC<{}> = () => {
       <Works />
     </Section>
     <Section
+      id="about"
       className="h-screen"
       light
     >
       <About />
     </Section>
     <Section
+      id="connect"
       className="h-screen"
       style={{
         backgroundColor: '#111111'
