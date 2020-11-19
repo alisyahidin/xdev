@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { animate, AnimatePresence, motion, transform, useMotionValue } from 'framer-motion';
+import { animate, AnimatePresence, motion, useMotionValue } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 

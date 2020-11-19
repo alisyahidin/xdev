@@ -1,26 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Arrow from 'components/Arrow'
+import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
 
 const services = [
   {
-    title: <h2 style={{ marginTop: -22 }} className="absolute text-3xl font-bold leading-9 ml-4">Product <br/> Development</h2>,
-    alt: 'Product Development',
-    image: '/images/service1.png',
+    title: 'Product Development',
+    image: '/images/service-1.png',
   },
   {
-    title: <h2 style={{ marginTop: -22 }} className="absolute text-3xl font-bold leading-9 ml-4">User <br/> Experience</h2>,
-    alt: 'User Experience',
-    image: '/images/service2.png',
+    title: 'User Experience',
+    image: '/images/service-2.png',
   },
   {
-    title: <h2 style={{ marginTop: -22 }} className="absolute text-3xl font-bold leading-9 ml-4">SEO <br/> Optimization</h2>,
-    alt: 'SEO Optimization',
-    image: '/images/service3.png',
+    title: 'SEO Optimization',
+    image: '/images/service-3.png',
   },
   {
-    title: <h2 style={{ marginTop: -22 }} className="absolute text-3xl font-bold leading-9 ml-4">Co <br/> Creation</h2>,
-    alt: 'Co Creation',
-    image: '/images/service4.png',
+    title: 'Co Creation',
+    image: '/images/service-4.png',
   },
 ]
 
@@ -32,24 +29,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
       <h1 className="text-5xl font-bold mb-16">
         Our Services
       </h1>
-      <ul className="w-full grid sm:grid-cols-4 grid-cols-2 gap-16 mb-16">
-        {services.map((service, index) => (
-          <li key={index}>
-            <div className="relative">
-              <img
-                className="rounded-lg w-full shadow-md"
-                style={{
-                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), inset 0px 0px 60px rgba(0, 0, 0, 0.06)"
-                }}
-                src={service.image}
-                alt={service.alt}
-              />
-              <div style={{ boxShadow: 'rgb(255, 255, 255) 0px -60px 60px -30px inset' }} className="absolute w-full h-full top-0 left-0 rounded-lg" />
-            </div>
-            {service.title}
-          </li>
-        ))}
-      </ul>
+      <Services />
       <div className="flex w-full mt-12">
         <div className="w-8/12">
           <h2 style={{ color: '#333' }} className="text-3xl mb-4">
@@ -65,5 +45,110 @@ const OurServices: React.FC<OurServicesProps> = () => {
     </div>
   );
 };
+
+interface ServicesProps {}
+
+const Services: React.FC<ServicesProps> = () => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+
+  return (
+    <AnimateSharedLayout type="crossfade">
+      <div className="w-full grid sm:grid-cols-4 grid-cols-2 gap-16 mb-16">
+        {services.map(({ image, title }, index) => (
+          <motion.div layoutId={`service-container-${index}`} onClick={() => setActiveIndex(index)} key={index} className="block cursor-pointer z-0">
+            {/* <div className="relative"> */}
+              <motion.img
+                layoutId={`image-${index}`}
+                style={{ borderRadius: 5 }}
+                className="w-full"
+                src={image}
+                alt={title}
+              />
+              {/* <div
+                className="absolute w-full h-full top-0 left-0 rounded-md"
+                style={{ boxShadow: 'rgb(255, 255, 255) 0px -40px 60px -30px inset' }}
+              />
+            </div> */}
+            <motion.h3
+              layout
+              layoutId={`title-${index}`}
+              initial={{ marginTop: -30, opacity: 1, wordWrap: 'break-word' }}
+              animate={{ marginTop: -30, opacity: 1, wordWrap: 'break-word' }}
+              exit={{ marginTop: 10, opacity: 0, wordWrap: 'normal' }}
+              className="inline-block text-2xl font-bold leading-7 ml-4"
+            >
+              {title}
+            </motion.h3>
+          </motion.div>
+        ))}
+      </div>
+      <AnimatePresence>
+        {activeIndex !== null && (
+          <motion.div
+            initial={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
+            animate={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+            exit={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+            className="fixed flex items-center justify-center w-full h-full top-0 left-0 z-50"
+          >
+            <motion.div
+              layoutId={`service-container-${activeIndex}`}
+              style={{ height: 500 }}
+              className="flex w-4/5 items-center bg-white p-10"
+            >
+              {/* <div onClick={() => setActiveIndex(null)} className="relative"> */}
+                <motion.img
+                  layoutId={`image-${activeIndex}`}
+                  animate={{ borderRadius: 0 }}
+                  className="h-full"
+                  src={services[activeIndex].image}
+                  alt={services[activeIndex].title}
+                />
+                {/* <div
+                  className="absolute w-full h-full top-0 left-0 rounded-md"
+                  style={{ boxShadow: 'rgb(255, 255, 255) 0px -40px 60px -30px inset' }}
+                />
+              </div> */}
+              <div className="flex-1 ml-10">
+                <motion.h3
+                  layout
+                  layoutId={`title-${activeIndex}`}
+                  initial={{ wordWrap: 'normal' }}
+                  animate={{ wordWrap: 'normal' }}
+                  exit={{ wordWrap: 'break-word' }}
+                  className="text-2xl font-bold leading-7"
+                >
+                  {services[activeIndex].title}
+                </motion.h3>
+                <motion.p
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                >
+                  Nisl condimentum id venenatis a. Nec tincidunt <br/>
+                  praesent semper feugiat nibh sed pulvinar proin <br/>
+                  gravida. Sollicitudin tempor id eu nisl nunc.
+                </motion.p>
+                <motion.p
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                >
+                  UI/UX Design. Website.
+                </motion.p>
+              </div>
+              <svg onClick={() => setActiveIndex(null)} className="cursor-pointer" height="38px" viewBox="0 0 9.9375 8.1761" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(-100.03 -144.41)">
+                  <g fill="none" stroke="#4F4F4F" strokeWidth="0.8" strokeDasharray="8">
+                    <path d="m102.19 145.69 5.6127 5.6127" />
+                    <path d="m102.19 151.31 5.6407-5.612" />
+                  </g>
+                </g>
+              </svg>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </AnimateSharedLayout>
+  )
+}
 
 export default OurServices;
