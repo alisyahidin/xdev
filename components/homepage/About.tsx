@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link'
 import Arrow from 'components/Arrow'
 
 interface AboutProps {}
@@ -28,10 +29,12 @@ const About: React.FC<AboutProps> = () => {
             enjoyable, intuitive, engaging and <br/>
             remarkable experience for people.
           </p>
-          <div className="flex items-center">
-            <p className="text-lg font-bold">See more</p>
-            <Arrow className="ml-4" size={35} />
-          </div>
+          <Link href="/about" passHref>
+            <a className="flex items-center">
+              <p className="text-lg font-bold">See more</p>
+              <Arrow className="ml-4" size={35} />
+            </a>
+          </Link>
         </div>
       </div>
     </div>

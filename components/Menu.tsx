@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { animate, AnimatePresence, motion, useMotionValue } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
@@ -63,27 +65,27 @@ const getStrokeColor = {
 
 const menus = [
   {
-    href: 'home',
+    href: '/#home',
     floatMenu: 'dark',
     title: ['01', 'Home']
   },
   {
-    href: 'services',
+    href: '/#services',
     floatMenu: 'light',
     title: ['02', 'Services']
   },
   {
-    href: 'works',
+    href: '/#works',
     floatMenu: 'light',
     title: ['03', 'Work']
   },
   {
-    href: 'about',
+    href: '/#about',
     floatMenu: 'light',
     title: ['04', 'About']
   },
   {
-    href: 'connect',
+    href: '/#connect',
     floatMenu: 'dark',
     title: ['05', 'Connect']
   }
@@ -149,6 +151,7 @@ const lineVariants = {
 interface MenuProps {}
 
 const Menu: React.FC<MenuProps> = () => {
+  const router = useRouter()
   const strokeColor = useMotionValue<string>('rgb(255, 255, 255)')
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [disableMenu, setDisableMenu] = useState<boolean>(false)
@@ -198,17 +201,17 @@ const Menu: React.FC<MenuProps> = () => {
       >
         <div style={{ color: '#828282' }} className="flex-1 w-full h-full flex flex-col justify-center items-start">
           {menus.map((menu, index) => (
-            <motion.a
-              key={index}
-              variants={itemSideMenuVariants()}
-              custom={{ id: 'menu-list', index: index + 1 }}
-              href={`#${menu.href}`}
-              className={clsx(["flex items-center mb-4 hover:menu-active", location.hash === `#${menu.href}` && 'menu-active'])}
-              onClick={() => setShowMenu(false)}
-            >
-              {menu.title[0]}
-              <h2 className="text-4xl mb-1 ml-6">{menu.title[1]}</h2>
-            </motion.a>
+            <Link key={index} href={menu.href} passHref>
+              <motion.a
+                variants={itemSideMenuVariants()}
+                custom={{ id: 'menu-list', index: index + 1 }}
+                className={clsx(["flex items-center mb-4 hover:menu-active", location.hash === `#${menu.href}` && 'menu-active'])}
+                onClick={() => setShowMenu(false)}
+              >
+                {menu.title[0]}
+                <h2 className="text-4xl mb-1 ml-6">{menu.title[1]}</h2>
+              </motion.a>
+            </Link>
           ))}
         </div>
         <svg className="mx-20" width=".5mm" viewBox="0 0 .5 195.07" strokeDasharray="195" xmlns="http://www.w3.org/2000/svg">

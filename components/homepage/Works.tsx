@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import Arrow from 'components/Arrow'
 import { useInView } from 'react-intersection-observer';
@@ -44,19 +45,19 @@ const Works: React.FC<WorksProps> = () => {
       <div className="flex w-full">
         <div className="flex-1 py-8">
           <h2 className="text-3xl mb-8">We build great business</h2>
-          <p className="mb-8">
-            Nisl condimentum id venenatis a. Nec tincidunt <br/>
-            praesent semper feugiat nibh sed pulvinar proin <br/>
-            gravida. Sollicitudin tempor id eu nisl nunc.
+          <p className="mb-8 whitespace-pre-line">
+            {`Nisl condimentum id venenatis a. Nec tincidunt
+            praesent semper feugiat nibh sed pulvinar proin
+            gravida. Sollicitudin tempor id eu nisl nunc.`}
           </p>
-          <p className="mb-8">
-            Adipiscing diam donec adipiscing tristique risus <br/>
-            nec feugiat in fermentum. Pretium vulputate sapien <br/>
-            nec sagittis aliquam malesuada bibendum arcu vitae.
+          <p className="mb-8 whitespace-pre-line">
+            {`Adipiscing diam donec adipiscing tristique risus
+            nec feugiat in fermentum. Pretium vulputate sapien
+            nec sagittis aliquam malesuada bibendum arcu vitae.`}
           </p>
-          <p className="mb-8">
-            Massa massa ultricies mi quis hendrerit dolor magna. <br/>
-            Egestas dui id ornare arcu odio..
+          <p className="mb-8 whitespace-pre-line">
+            {`Massa massa ultricies mi quis hendrerit dolor magna.
+            Egestas dui id ornare arcu odio..`}
           </p>
         </div>
         <div className="flex-1 text-black">
@@ -66,10 +67,12 @@ const Works: React.FC<WorksProps> = () => {
         </div>
       </div>
       <div className="mt-16">
-        <div className="flex items-center">
-          <p className="text-lg font-bold">See more</p>
-          <Arrow className="ml-4" size={40} circleSize={18} secondaryColor="#B72842" primaryColor="#FFFFFF" />
-        </div>
+        <Link href="/works" passHref>
+          <a className="flex items-center">
+            <p className="text-lg font-bold">See more</p>
+            <Arrow className="ml-4" size={40} circleSize={18} secondaryColor="#B72842" primaryColor="#FFFFFF" />
+          </a>
+        </Link>
       </div>
     </div>
   );
