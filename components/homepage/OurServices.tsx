@@ -1,25 +1,8 @@
 import React, { useState } from 'react';
+import Link from 'next/link'
 import Arrow from 'components/Arrow'
 import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
-
-const services = [
-  {
-    title: 'Product Development',
-    image: '/images/service-1.png',
-  },
-  {
-    title: 'User Experience',
-    image: '/images/service-2.png',
-  },
-  {
-    title: 'SEO Optimization',
-    image: '/images/service-3.png',
-  },
-  {
-    title: 'Co Creation',
-    image: '/images/service-4.png',
-  },
-]
+import { ourServices } from 'pages/our-services'
 
 interface OurServicesProps {}
 
@@ -30,17 +13,19 @@ const OurServices: React.FC<OurServicesProps> = () => {
         Our Services
       </h1>
       <Services />
-      <div className="flex w-full mt-12">
+      <div className="flex items-center w-full mt-12">
         <div className="w-8/12">
           <h2 style={{ color: '#333' }} className="text-3xl mb-4">
             Elevating Brands <br/> through innovation in <span style={{ color: '#EB5757' }}> Digital Transformation.</span>
           </h2>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do <br/> eiusmod tempor incididunt labore et dolore magna aliqua.</p>
         </div>
-        <div className="w-4/12 flex justify-center items-center">
-          <p className="text-lg font-bold">What we do</p>
-          <Arrow className="ml-4" size={35} />
-        </div>
+        <Link href="/our-services" passHref>
+          <a className="w-4/12 flex justify-center items-center">
+            <p className="text-lg font-bold">What we do</p>
+            <Arrow className="ml-4" size={35} />
+          </a>
+        </Link>
       </div>
     </div>
   );
@@ -54,7 +39,7 @@ const Services: React.FC<ServicesProps> = () => {
   return (
     <AnimateSharedLayout type="crossfade">
       <div className="w-full grid sm:grid-cols-4 grid-cols-2 gap-16 mb-16">
-        {services.map(({ image, title }, index) => (
+        {ourServices.map(({ image, title }, index) => (
           <motion.div layoutId={`service-container-${index}`} onClick={() => setActiveIndex(index)} key={index} className="block cursor-pointer z-0">
             {/* <div className="relative"> */}
               <motion.img
@@ -101,8 +86,8 @@ const Services: React.FC<ServicesProps> = () => {
                   layoutId={`image-${activeIndex}`}
                   animate={{ borderRadius: 0 }}
                   className="h-full"
-                  src={services[activeIndex].image}
-                  alt={services[activeIndex].title}
+                  src={ourServices[activeIndex].image}
+                  alt={ourServices[activeIndex].title}
                 />
                 {/* <div
                   className="absolute w-full h-full top-0 left-0 rounded-md"
@@ -118,21 +103,20 @@ const Services: React.FC<ServicesProps> = () => {
                   exit={{ wordWrap: 'break-word' }}
                   className="text-2xl font-bold leading-7"
                 >
-                  {services[activeIndex].title}
+                  {ourServices[activeIndex].title}
                 </motion.h3>
                 <motion.p
+                  className="whitespace-pre-line"
                   initial={{ x: -30, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                 >
-                  Nisl condimentum id venenatis a. Nec tincidunt <br/>
-                  praesent semper feugiat nibh sed pulvinar proin <br/>
-                  gravida. Sollicitudin tempor id eu nisl nunc.
+                  {ourServices[activeIndex].detail}
                 </motion.p>
                 <motion.p
                   initial={{ x: -30, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                 >
-                  UI/UX Design. Website.
+                  {ourServices[activeIndex].category}
                 </motion.p>
               </div>
               <svg onClick={() => setActiveIndex(null)} className="cursor-pointer" height="38px" viewBox="0 0 9.9375 8.1761" xmlns="http://www.w3.org/2000/svg">

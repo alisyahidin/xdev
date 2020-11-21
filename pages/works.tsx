@@ -7,7 +7,7 @@ import Footer from 'components/Footer';
 const data = [
   {
     title: 'Hakuhodo : H3',
-    description: `H:Three is Hakuhodo’s fifth agency in Indonesia.
+    detail: `H:Three is Hakuhodo’s fifth agency in Indonesia.
       Within its first year, H:Three has managed to acquire
       several local and International clients.`,
     category: 'UI/UX Design. Website.',
@@ -16,7 +16,7 @@ const data = [
   },
   {
     title: 'InterBIO',
-    description: `interBIO is the leading identity management
+    detail: `interBIO is the leading identity management
       biometric software solutions company.`,
     category: 'UI/UX Design. Website.',
     logo: '/images/work-logo-2.png',
@@ -24,7 +24,7 @@ const data = [
   },
   {
     title: 'WAN Solution',
-    description: `WAN Solutions was a system integrator company which has
+    detail: `WAN Solutions was a system integrator company which has
       extensive exposures to the technology driven solutions.`,
     category: 'UI/UX Design. Website.',
     logo: '/images/work-logo-3.png',
@@ -96,8 +96,8 @@ const Works: React.FC<WorksProps> = () => {
                 </div>
               </div>
               <div className={clsx(["px-10 py-6", isEven && 'order-first text-right'])}>
-                <h2 className="text-3xl font-bold mb-4">{work.title}</h2>
-                <p className="whitespace-pre-line leading-7 mb-4">{work.description}</p>
+                <h3 className="text-3xl font-bold mb-4">{work.title}</h3>
+                <p className="whitespace-pre-line leading-7 mb-4">{work.detail}</p>
                 <p className="mb-4" style={{ color: '#AFAAAA' }}>{work.category}</p>
               </div>
             </div>
