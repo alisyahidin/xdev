@@ -4,29 +4,6 @@ import { useDispatch } from 'react-redux'
 import Arrow from 'components/Arrow'
 import { useInView } from 'react-intersection-observer';
 
-const services = [
-  {
-    title: <h2 style={{ marginTop: -22 }} className="absolute text-3xl font-bold leading-9 ml-4">Product <br/> Development</h2>,
-    alt: 'Product Development',
-    image: '/images/service1.png',
-  },
-  {
-    title: <h2 style={{ marginTop: -22 }} className="absolute text-3xl font-bold leading-9 ml-4">User <br/> Experience</h2>,
-    alt: 'User Experience',
-    image: '/images/service2.png',
-  },
-  {
-    title: <h2 style={{ marginTop: -22 }} className="absolute text-3xl font-bold leading-9 ml-4">SEO <br/> Optimization</h2>,
-    alt: 'SEO Optimization',
-    image: '/images/service3.png',
-  },
-  {
-    title: <h2 style={{ marginTop: -22 }} className="absolute text-3xl font-bold leading-9 ml-4">Co <br/> Creation</h2>,
-    alt: 'Co Creation',
-    image: '/images/service4.png',
-  },
-]
-
 interface WorksProps {}
 
 const Works: React.FC<WorksProps> = () => {

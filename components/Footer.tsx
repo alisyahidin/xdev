@@ -1,13 +1,18 @@
 import React from 'react';
 import Section from './Section';
 
-interface FooterProps {}
+type Background =  'bg-footer.png'
+  | 'bg-footer-2.png'
 
-const Footer: React.FC<FooterProps> = () => (
+interface FooterProps {
+  bg?: Background
+}
+
+const Footer: React.FC<FooterProps> = ({ bg = 'bg-footer.png' }) => (
   <Section
     className="h-screen"
     style={{
-      backgroundImage: 'url(/images/bg-footer.png)',
+      backgroundImage: `url(/images/${bg})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
