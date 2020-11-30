@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { animate, AnimatePresence, motion, useMotionValue } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
+import { useShowMenu } from 'store/menu';
 
 const duration = 0.3
 const menuVariants = (i: number) => ({
@@ -147,12 +148,11 @@ const lineVariants = {
   hide: { strokeDashoffset: 195 }
 }
 
-interface MenuProps {}
+interface FloatMenuProps {}
 
-const Menu: React.FC<MenuProps> = () => {
+export const FloatMenu: React.FC<FloatMenuProps> = () => {
   const strokeColor = useMotionValue<string>('rgb(255, 255, 255)')
-  const [showMenu, setShowMenu] = useState<boolean>(false)
-  const [disableMenu, setDisableMenu] = useState<boolean>(false)
+  const {showMenu, isAnimating, setShowMenu} = useShowMenu()
 
   const floatMenuMode = useSelector((state: { floatMenuMode: 'string' }) => state.floatMenuMode);
   useEffect(() => {
@@ -160,12 +160,10 @@ const Menu: React.FC<MenuProps> = () => {
     if (showMenu) animate(strokeColor, getStrokeColor.dark, {})
   }, [floatMenuMode, showMenu])
 
-  return (<>
+  return (
     <button
-      disabled={disableMenu}
-      onClick={() => setShowMenu(prev => !prev)}
-      className="fixed right-0 z-50"
-      style={{ top: '50%', transform: 'translate(-50%, -50%)' }}
+      disabled={isAnimating}
+      onClick={() => setShowMenu(!showMenu)}
     >
       <svg height="38px" viewBox="0 0 9.9375 8.1761" xmlns="http://www.w3.org/2000/svg">
         <g transform="translate(-100.03 -144.41)">
@@ -185,6 +183,21 @@ const Menu: React.FC<MenuProps> = () => {
         </g>
       </svg>
     </button>
+  )
+}
+
+interface SideMenuProps {}
+
+const SideMenu: React.FC<SideMenuProps> = () => {
+  const {showMenu, finishTransition, setShowMenu} = useShowMenu()
+
+  return (<>
+    <div
+      className="hidden sm:block fixed right-0 z-50"
+      style={{ top: '50%', transform: 'translate(-50%, -50%)' }}
+    >
+      <FloatMenu />
+    </div>
     <AnimatePresence>
       {showMenu && <motion.div
         variants={sideMenuVariants}
@@ -192,8 +205,7 @@ const Menu: React.FC<MenuProps> = () => {
         animate="show"
         exit="hide"
         transition={{ type: 'tween', duration: 1, ease: [0.15, 0.95, 0.5, 1] }}
-        onAnimationStart={() => setDisableMenu(true)}
-        onAnimationComplete={() => setDisableMenu(false)}
+        onAnimationComplete={finishTransition}
         className="fixed flex h-screen w-screen p-20 z-40"
         style={{ backgroundColor: '#111111' }}
       >
@@ -270,4 +282,4 @@ const Menu: React.FC<MenuProps> = () => {
   </>);
 };
 
-export default Menu;
+export default SideMenu;
