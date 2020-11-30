@@ -22,7 +22,7 @@ const Home: React.FC<{}> = () => {
       }}
     >
       <div className="container h-full flex items-center">
-        <h1 className="text-white text-6xl font-bold">
+        <h1 className="text-white text-4xl sm:text-6xl font-bold">
           We Move <br/>
           Digital Industry <br/>
           Forward <br/>
@@ -60,10 +60,10 @@ const Home: React.FC<{}> = () => {
       }}
     >
       <div className="container h-full flex items-center">
-        <h1 className="text-white text-6xl font-bold">
-          Elevating Brands <br/>
-          through innovation in <br/>
-          Digital Transformation.
+        <h1 className="text-white text-4xl sm:text-6xl font-bold sm:whitespace-pre-line">
+          {`Elevating Brands
+          through innovation in
+          Digital Transformation.`}
         </h1>
       </div>
     </Section>

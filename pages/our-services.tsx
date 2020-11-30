@@ -53,7 +53,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
       }}
     >
       <div className="container h-full py-16 text-white">
-        <h1 className="text-6xl font-bold whitespace-pre-line my-32">
+        <h1 className="text-4xl sm:text-6xl font-bold sm:whitespace-pre-line my-32">
           {`Elevating Brands
           through innovation in
           Digital Transformation.`}
@@ -80,7 +80,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
       }}
     >
       <div className="container h-full py-16 text-white">
-        <h2 className="text-5xl font-bold mb-12">
+        <h2 className="text-3xl sm:text-5xl font-bold mb-12">
           Our Services
         </h2>
         <div className="grid grid-cols-2 auto-rows-auto gap-56">
@@ -101,7 +101,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
                   src={service.image}
                   alt={service.title}
                 />
-                <h3 className="text-3xl font-bold mb-4">{service.title}</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold mb-4">{service.title}</h3>
                 <p className="whitespace-pre-line mb-4">
                   {service.detail}
                 </p>

@@ -16,30 +16,30 @@ const Works: React.FC<WorksProps> = () => {
 
   return (
     <div className="container h-full flex flex-col items-start justify-center my-16 text-white">
-      <h1 className="text-5xl font-bold mb-16">
+      <h2 className="text-3xl sm:text-5xl font-bold mb-16">
         Works
-      </h1>
-      <div className="flex w-full">
+      </h2>
+      <div className="flex flex-col sm:flex-row w-full">
         <div className="flex-1 py-8">
-          <h2 className="text-3xl mb-8">We build great business</h2>
-          <p className="mb-8 whitespace-pre-line">
+          <h3 className="text-2xl sm:text-3xl mb-8">We build great business</h3>
+          <p className="mb-8 sm:whitespace-pre-line">
             {`Nisl condimentum id venenatis a. Nec tincidunt
             praesent semper feugiat nibh sed pulvinar proin
             gravida. Sollicitudin tempor id eu nisl nunc.`}
           </p>
-          <p className="mb-8 whitespace-pre-line">
+          <p className="mb-8 sm:whitespace-pre-line">
             {`Adipiscing diam donec adipiscing tristique risus
             nec feugiat in fermentum. Pretium vulputate sapien
             nec sagittis aliquam malesuada bibendum arcu vitae.`}
           </p>
-          <p className="mb-8 whitespace-pre-line">
+          <p className="mb-8 sm:whitespace-pre-line">
             {`Massa massa ultricies mi quis hendrerit dolor magna.
             Egestas dui id ornare arcu odio..`}
           </p>
         </div>
         <div className="flex-1 text-black">
-          <div ref={ref} style={{ width: '150%' }} className="bg-white h-full p-8 rounded-tl-lg rounded-bl-lg">
-            <h2 className="text-3xl mb-8">Our Clients</h2>
+          <div ref={ref} className="sm:our-client bg-white h-full p-8 rounded-lg sm:rounded-tl-lg sm:rounded-bl-lg sm:rounded-rl-none sm:rounded-br-lg">
+            <h3 className="text-2xl sm:text-3xl mb-8">Our Clients</h3>
           </div>
         </div>
       </div>

@@ -9,19 +9,19 @@ interface OurServicesProps {}
 const OurServices: React.FC<OurServicesProps> = () => {
   return (
     <div className="container h-full flex flex-col items-start justify-center my-16">
-      <h1 className="text-5xl font-bold mb-16">
+      <h2 className="text-3xl sm:text-5xl font-bold mb-16">
         Our Services
-      </h1>
+      </h2>
       <Services />
-      <div className="flex items-center w-full mt-12">
-        <div className="w-8/12">
-          <h2 style={{ color: '#333' }} className="text-3xl mb-4">
-            Elevating Brands <br/> through innovation in <span style={{ color: '#EB5757' }}> Digital Transformation.</span>
-          </h2>
+      <div className="flex flex-col sm:flex-row sm:items-center w-full mt-12">
+        <div className="sm:w-8/12">
+          <h3 style={{ color: '#333' }} className="text-2xl sm:text-3xl mb-4">
+            Elevating Brands <br className="hidden sm:block"/> through innovation in <span style={{ color: '#EB5757' }}> Digital Transformation.</span>
+          </h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do <br/> eiusmod tempor incididunt labore et dolore magna aliqua.</p>
         </div>
         <Link href="/our-services" passHref>
-          <a className="w-4/12 flex justify-center items-center">
+          <a className="sm:w-4/12 flex sm:justify-center items-center mt-4 sm:mt-0">
             <p className="text-lg font-bold">What we do</p>
             <Arrow className="ml-4" size={35} />
           </a>
@@ -38,7 +38,7 @@ const Services: React.FC<ServicesProps> = () => {
 
   return (
     <AnimateSharedLayout type="crossfade">
-      <div className="w-full grid sm:grid-cols-4 grid-cols-2 gap-16 mb-16">
+      <div className="w-full grid sm:grid-cols-4 grid-cols-2 gap-16 mb-8 sm:mb-16">
         {ourServices.map(({ image, title }, index) => (
           <motion.div layoutId={`service-container-${index}`} onClick={() => setActiveIndex(index)} key={index} className="block cursor-pointer z-0">
             {/* <div className="relative"> */}

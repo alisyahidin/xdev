@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { animate, AnimatePresence, motion, useMotionValue } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
@@ -151,7 +150,6 @@ const lineVariants = {
 interface MenuProps {}
 
 const Menu: React.FC<MenuProps> = () => {
-  const router = useRouter()
   const strokeColor = useMotionValue<string>('rgb(255, 255, 255)')
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [disableMenu, setDisableMenu] = useState<boolean>(false)
@@ -214,7 +212,7 @@ const Menu: React.FC<MenuProps> = () => {
             </Link>
           ))}
         </div>
-        <svg className="mx-20" width=".5mm" viewBox="0 0 .5 195.07" strokeDasharray="195" xmlns="http://www.w3.org/2000/svg">
+        <svg className="mx-20 hidden sm:block" width=".5mm" viewBox="0 0 .5 195.07" strokeDasharray="195" xmlns="http://www.w3.org/2000/svg">
           <motion.path
             variants={lineVariants}
             custom={{ id: 'line', index: 1 }}
@@ -222,7 +220,7 @@ const Menu: React.FC<MenuProps> = () => {
             d="m0.39687 0.39687v194.28"
           />
         </svg>
-        <div style={{ color: '#F2F2F2' }} className="flex-1 w-full h-full flex flex-col justify-center items-start">
+        <div style={{ color: '#F2F2F2' }} className="hidden sm:flex flex-1 w-full h-full flex-col justify-center items-start">
           <motion.svg
             variants={itemSideMenuVariants('x')}
             custom={{ id: 'menu-header', index: 1 }}

@@ -1,16 +1,14 @@
 module.exports = {
   purge: [
-    './pages/**/*.tsx',
-    './components/**/*.tsx',
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     container: {
       center: true,
       padding: {
-        default: '1rem'
+        DEFAULT: '1rem'
       }
     },
-  },
-  variants: {},
-  plugins: [],
+  }
 }

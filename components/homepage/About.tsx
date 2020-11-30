@@ -7,27 +7,27 @@ interface AboutProps {}
 const About: React.FC<AboutProps> = () => {
   return (
     <div className="container h-full flex flex-col items-start justify-center my-16">
-      <h1 className="text-5xl font-bold mb-16">
+      <h2 className="text-3xl sm:text-5xl font-bold mb-16">
         About
-      </h1>
-      <div className="flex w-full">
+      </h2>
+      <div className="flex flex-col sm:flex-row w-full">
         <div className="flex-1">
-          <h2 className="text-3xl font-bold mb-8">
-            We help businesses <br/>
-            all around the world <br/>
-            to grow. <br/>
-          </h2>
+          <h3 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 sm:whitespace-pre-line">
+            {`We help businesses
+            all around the world
+            to grow.`}
+          </h3>
         </div>
         <div className="flex-1 text-black">
-          <p className="mb-8">
-            Based on Jakarta, <br/>
-            xDev has become one of the best <br/>
-            quality Digital Agency in Indonesia.
+          <p className="mb-6 sm:mb-8 sm:whitespace-pre-line">
+            {`Based on Jakarta,
+            xDev has become one of the best
+            quality Digital Agency in Indonesia.`}
           </p>
-          <p className="mb-8">
-            Our focus has always been to create <br/>
-            enjoyable, intuitive, engaging and <br/>
-            remarkable experience for people.
+          <p className="mb-6 sm:mb-8 sm:whitespace-pre-line">
+            {`Our focus has always been to create
+            enjoyable, intuitive, engaging and
+            remarkable experience for people.`}
           </p>
           <Link href="/about" passHref>
             <a className="flex items-center">

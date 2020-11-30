@@ -18,7 +18,7 @@ const About: React.FC<AboutProps> = () => {
       }}
     >
       <div className="container h-full py-16 text-white">
-        <h1 className="text-6xl font-bold my-32">
+        <h1 className="text-4xl sm:text-6xl font-bold my-32">
           Hello !
         </h1>
         <div className="relative flex items-center mb-40">
@@ -57,7 +57,7 @@ const About: React.FC<AboutProps> = () => {
           </div>
         </div>
         <div className="flex mb-40">
-          <h1 className="text-6xl whitespace-pre-line font-bold">
+          <h1 className="text-white text-4xl sm:text-6xl font-bold sm:whitespace-pre-line">
             {`Elevating Brands
             through innovation in
             Digital Transformation.`}
