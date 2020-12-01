@@ -90,7 +90,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
               <div
                 key={index}
                 className={clsx([
-                  'sm:row-span-2 flex flex-col min-h-full',
+                  'sm:row-span-2 flex flex-col items-start min-h-full',
                   `sm:row-start-${index + 1}`,
                   isEven ? 'sm:col-start-2 sm:items-end sm:text-right' : 'col-start-1'
                 ])}
@@ -100,7 +100,14 @@ const OurServices: React.FC<OurServicesProps> = () => {
                   src={service.image}
                   alt={service.title}
                 />
-                <h3 className="text-2xl sm:text-3xl font-bold mb-4">{service.title}</h3>
+                <h3
+                  className={clsx([
+                    "title-left text-2xl sm:text-3xl font-bold mb-4",
+                    isEven && 'sm:title-right'
+                  ])}
+                >
+                  {service.title}
+                </h3>
                 <p className="whitespace-pre-line mb-4">
                   {service.detail}
                 </p>

@@ -93,7 +93,7 @@ const Services: React.FC<ServicesProps> = () => {
               />
               <div className="flex-1 my-8 md:my-0 text-center md:text-left md:ml-10">
                 <h3
-                  className="text-2xl font-bold md:leading-7 mb-4"
+                  className="title-left text-2xl font-bold md:leading-7 mb-4"
                 >
                   {ourServices[activeIndex].title}
                 </h3>

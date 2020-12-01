@@ -96,7 +96,14 @@ const Works: React.FC<WorksProps> = () => {
                 </div>
               </div>
               <div className={clsx(["sm:px-10 py-6", isEven && 'sm:order-first sm:text-right'])}>
-                <h3 className="text-2xl sm:text-3xl font-bold mb-4">{work.title}</h3>
+                <h3
+                  className={clsx([
+                    "title-left text-2xl sm:text-3xl font-bold mb-4",
+                    isEven && 'sm:title-right'
+                  ])}
+                >
+                  {work.title}
+                </h3>
                 <p className="whitespace-pre-line leading-7 mb-4">{work.detail}</p>
                 <p className="mb-4" style={{ color: '#AFAAAA' }}>{work.category}</p>
               </div>
