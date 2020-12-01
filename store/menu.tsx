@@ -22,7 +22,7 @@ const reducer = (state = initialState, action: Action) => {
         isAnimating: false
       }
     default:
-      throw new Error(`Unknown action: ${action.type}`)
+      return state
   }
 }
 
