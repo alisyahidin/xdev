@@ -38,7 +38,7 @@ const Services: React.FC<ServicesProps> = () => {
 
   return (
     <AnimateSharedLayout type="crossfade">
-      <div className="w-full grid sm:grid-cols-4 grid-cols-2 gap-16 mb-8 sm:mb-16">
+      <div className="w-full grid sm:grid-cols-4 grid-cols-2 gap-8 sm:gap-16 mb-8 sm:mb-16">
         {ourServices.map(({ image, title }, index) => (
           <div key={index} className="block cursor-pointer z-0">
             <motion.div layoutId={`service-container-${index}`} onClick={() => setActiveIndex(index)} className="block">
@@ -82,7 +82,7 @@ const Services: React.FC<ServicesProps> = () => {
           >
             <motion.div
               layoutId={`service-container-${activeIndex}`}
-              className="flex flex-col lg:flex-row w-4/5 items-center bg-white p-10"
+              className="flex flex-col md:flex-row w-11/12 sm:w-4/5 items-center bg-white p-10"
             >
               <motion.img
                 layoutId={`image-${activeIndex}`}
@@ -91,9 +91,9 @@ const Services: React.FC<ServicesProps> = () => {
                 src={ourServices[activeIndex].image}
                 alt={ourServices[activeIndex].title}
               />
-              <div className="flex-1 my-8 lg:my-0 text-center lg:text-left lg:ml-10">
+              <div className="flex-1 my-8 md:my-0 text-center md:text-left md:ml-10">
                 <h3
-                  className="text-2xl font-bold lg:leading-7 mb-4"
+                  className="text-2xl font-bold md:leading-7 mb-4"
                 >
                   {ourServices[activeIndex].title}
                 </h3>
