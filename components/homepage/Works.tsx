@@ -16,7 +16,7 @@ const Works: React.FC<WorksProps> = () => {
 
   return (
     <div className="container h-full flex flex-col items-start justify-center my-16 text-white">
-      <h2 className="text-3xl sm:text-5xl font-bold mb-16">
+      <h2 className="text-3xl sm:text-5xl font-bold mb-8 sm:mb-16">
         Works
       </h2>
       <div className="flex flex-col sm:flex-row w-full">

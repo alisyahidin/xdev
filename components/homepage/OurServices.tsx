@@ -40,8 +40,8 @@ const Services: React.FC<ServicesProps> = () => {
     <AnimateSharedLayout type="crossfade">
       <div className="w-full grid sm:grid-cols-4 grid-cols-2 gap-16 mb-8 sm:mb-16">
         {ourServices.map(({ image, title }, index) => (
-          <motion.div layoutId={`service-container-${index}`} onClick={() => setActiveIndex(index)} key={index} className="block cursor-pointer z-0">
-            {/* <div className="relative"> */}
+          <div key={index} className="block cursor-pointer z-0">
+            <motion.div layoutId={`service-container-${index}`} onClick={() => setActiveIndex(index)} className="block">
               <motion.img
                 layoutId={`image-${index}`}
                 style={{ borderRadius: 5 }}
@@ -52,19 +52,23 @@ const Services: React.FC<ServicesProps> = () => {
               {/* <div
                 className="absolute w-full h-full top-0 left-0 rounded-md"
                 style={{ boxShadow: 'rgb(255, 255, 255) 0px -40px 60px -30px inset' }}
-              />
-            </div> */}
+              /> */}
+            </motion.div>
             <motion.h3
-              layout
-              layoutId={`title-${index}`}
-              initial={{ marginTop: -30, opacity: 1, wordWrap: 'break-word' }}
-              animate={{ marginTop: -30, opacity: 1, wordWrap: 'break-word' }}
-              exit={{ marginTop: 10, opacity: 0, wordWrap: 'normal' }}
+              animate={{
+                opacity: activeIndex === index ? 0 : 1,
+                y: activeIndex === index ? 30 : 0,
+                transition: {
+                  duration: 0.1,
+                  delay: activeIndex === index ? 0 : 0.3
+                }
+              }}
+              style={{ marginTop: -30, opacity: 1, wordWrap: 'break-word' }}
               className="inline-block text-2xl font-bold leading-7 ml-4"
             >
               {title}
             </motion.h3>
-          </motion.div>
+          </div>
         ))}
       </div>
       <AnimatePresence>
@@ -78,46 +82,27 @@ const Services: React.FC<ServicesProps> = () => {
           >
             <motion.div
               layoutId={`service-container-${activeIndex}`}
-              style={{ height: 500 }}
-              className="flex w-4/5 items-center bg-white p-10"
+              className="flex flex-col lg:flex-row w-4/5 items-center bg-white p-10"
             >
-              {/* <div onClick={() => setActiveIndex(null)} className="relative"> */}
-                <motion.img
-                  layoutId={`image-${activeIndex}`}
-                  animate={{ borderRadius: 0 }}
-                  className="h-full"
-                  src={ourServices[activeIndex].image}
-                  alt={ourServices[activeIndex].title}
-                />
-                {/* <div
-                  className="absolute w-full h-full top-0 left-0 rounded-md"
-                  style={{ boxShadow: 'rgb(255, 255, 255) 0px -40px 60px -30px inset' }}
-                />
-              </div> */}
-              <div className="flex-1 ml-10">
-                <motion.h3
-                  layout
-                  layoutId={`title-${activeIndex}`}
-                  initial={{ wordWrap: 'normal' }}
-                  animate={{ wordWrap: 'normal' }}
-                  exit={{ wordWrap: 'break-word' }}
-                  className="text-2xl font-bold leading-7"
+              <motion.img
+                layoutId={`image-${activeIndex}`}
+                animate={{ borderRadius: 0 }}
+                className="lg:h-96"
+                src={ourServices[activeIndex].image}
+                alt={ourServices[activeIndex].title}
+              />
+              <div className="flex-1 my-8 lg:my-0 text-center lg:text-left lg:ml-10">
+                <h3
+                  className="text-2xl font-bold lg:leading-7 mb-4"
                 >
                   {ourServices[activeIndex].title}
-                </motion.h3>
-                <motion.p
-                  className="whitespace-pre-line"
-                  initial={{ x: -30, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                >
+                </h3>
+                <p className="sm:whitespace-pre-line mb-4">
                   {ourServices[activeIndex].detail}
-                </motion.p>
-                <motion.p
-                  initial={{ x: -30, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                >
+                </p>
+                <p>
                   {ourServices[activeIndex].category}
-                </motion.p>
+                </p>
               </div>
               <svg onClick={() => setActiveIndex(null)} className="cursor-pointer" height="38px" viewBox="0 0 9.9375 8.1761" xmlns="http://www.w3.org/2000/svg">
                 <g transform="translate(-100.03 -144.41)">

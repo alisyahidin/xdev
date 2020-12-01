@@ -6,7 +6,7 @@ interface AboutProps {}
 
 const About: React.FC<AboutProps> = () => {
   return (
-    <div className="container h-full flex flex-col items-start justify-center my-16">
+    <div className="container h-full flex flex-col items-start justify-center">
       <h2 className="text-3xl sm:text-5xl font-bold mb-16">
         About
       </h2>
