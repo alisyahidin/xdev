@@ -65,7 +65,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
           alt="Our Service Hero"
         />
         <div className="flex w-full justify-end">
-          <p className="whitespace-pre-line mr-10">
+          <p className="sm:whitespace-pre-line mr-10">
             {`Nisl condimentum id venenatis a. Nec tincidunt
             praesent semper feugiat nibh sed pulvinar proin
             gravida. Sollicitudin tempor id eu nisl nunc.`}
@@ -83,21 +83,20 @@ const OurServices: React.FC<OurServicesProps> = () => {
         <h2 className="text-3xl sm:text-5xl font-bold mb-12">
           Our Services
         </h2>
-        <div className="grid grid-cols-2 auto-rows-auto gap-56">
+        <div className="grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-10 md:gap-56">
           {ourServices.map((service, index) => {
             const isEven = (index + 1) % 2 === 0
             return (
               <div
                 key={index}
                 className={clsx([
-                  'row-span-2 flex flex-col min-h-full',
-                  `row-start-${index + 1}`,
-                  isEven ? 'col-start-2 items-end text-right' : 'col-start-1'
+                  'sm:row-span-2 flex flex-col min-h-full',
+                  `sm:row-start-${index + 1}`,
+                  isEven ? 'sm:col-start-2 sm:items-end sm:text-right' : 'col-start-1'
                 ])}
               >
                 <img
-                  className="mb-8"
-                  style={{ height: 640, width: 420, objectFit: 'cover' }}
+                  className="mb-8 w-full sm:width-420 h-72 sm:height-640 object-cover"
                   src={service.image}
                   alt={service.title}
                 />
