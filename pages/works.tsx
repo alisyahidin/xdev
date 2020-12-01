@@ -77,16 +77,16 @@ const Works: React.FC<WorksProps> = () => {
         {data.map((work, index) => {
           const isEven = (index + 1) % 2 === 0
           return (
-            <div className={clsx(["flex mb-20", isEven && 'justify-end'])} key={index}>
+            <div className={clsx(["flex flex-col sm:flex-row mb-20", isEven && 'justify-end'])} key={index}>
               <div className="relative">
                 <img
-                  style={{ height: 420, width: 420 }}
+                  className="w-full"
                   src={work.preview}
                   alt={work.title}
                 />
                 <div
-                  className="absolute flex justify-center items-center bg-white"
-                  style={{ left: !isEven ? '100%' : null, right: isEven ? '100%' : null, bottom: '0%', width: 120, height: 120 }}
+                  className={clsx(["absolute flex justify-center items-center bg-white bottom-0 right-0", isEven ? 'lg:right-full' : 'lg:left-full'])}
+                  style={{ width: 120, height: 120 }}
                 >
                   <img
                     className="max-w-full max-h-full"
@@ -95,7 +95,7 @@ const Works: React.FC<WorksProps> = () => {
                   />
                 </div>
               </div>
-              <div className={clsx(["px-10 py-6", isEven && 'order-first text-right'])}>
+              <div className={clsx(["sm:px-10 py-6", isEven && 'sm:order-first sm:text-right'])}>
                 <h3 className="text-2xl sm:text-3xl font-bold mb-4">{work.title}</h3>
                 <p className="whitespace-pre-line leading-7 mb-4">{work.detail}</p>
                 <p className="mb-4" style={{ color: '#AFAAAA' }}>{work.category}</p>
