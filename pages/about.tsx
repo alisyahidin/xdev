@@ -21,15 +21,14 @@ const About: React.FC<AboutProps> = () => {
         <h1 className="text-4xl sm:text-6xl font-bold my-32">
           Hello !
         </h1>
-        <div className="relative flex items-center mb-40">
-          <h2 style={{ top: -30 }} className="absolute whitespace-pre-line text-4xl font-bold z-10">
+        <div className="relative flex flex-col lg:flex-row lg:items-center mb-40">
+          <h2 style={{ top: -30 }} className="absolute whitespace-pre-line text-2xl sm:text-4xl font-bold z-10">
             {`We solve digital problems
               with an outstanding
               creative flare`}
           </h2>
-
-          <img style={{ transform: 'translate(-20%)' }} className="flex-1" src="/images/about-1.png" alt="About Image"/>
-          <p className="text-lg flex-1 whitespace-pre-line text-right">
+          <img className="flex-1 transform lg:-translate-x-52 mb-8 lg:mb-0" src="/images/about-1.png" alt="About Image"/>
+          <p className="text-lg flex-1 lg:whitespace-pre-line lg:text-right">
             {`Based on Jakarta,
               xDev has become one of the best
               quality Digital Agency in Indonesia.
@@ -39,10 +38,10 @@ const About: React.FC<AboutProps> = () => {
               remarkable experience for people.`}
           </p>
         </div>
-        <div className="flex items-center mb-40">
-          <img style={{ transform: 'translate(20%)' }} className="flex-1 order-last" src="/images/about-2.png" alt="About Image"/>
+        <div className="flex flex-col lg:flex-row items-center mb-40">
+          <img className="flex-1 lg:order-last transform lg:translate-x-52 mb-8 lg:mb-0" src="/images/about-2.png" alt="About Image"/>
           <div className="flex-1">
-            <p className="text-lg whitespace-pre-line mb-8">
+            <p className="text-lg lg:whitespace-pre-line mb-8">
               {`We’ve worked incredibly hard to build a
               talented, industry leading team of
               professionals. With a team of creative,
