@@ -8,8 +8,6 @@ const wrapperVariants = {
   transparent: {
     backgroundColor: 'rgba(255, 255, 255, 0)',
     boxShadow: 'rgb(61, 61, 61, 0) 0px 0px 10px',
-    paddingBottom: '2rem',
-    paddingTop: '2rem',
     transition: {
       type: 'tween',
       ease: [0.15, 0.95, 0.5, 1],
@@ -19,8 +17,6 @@ const wrapperVariants = {
   white: {
     backgroundColor: 'rgba(255, 255, 255, 1)',
     boxShadow: 'rgb(61, 61, 61, 0.1) 0px 0px 35px',
-    paddingBottom: '1.4rem',
-    paddingTop: '1.4rem',
     transition: {
       type: 'tween',
       ease: [0.15, 0.95, 0.5, 1],
@@ -48,6 +44,13 @@ const logoVariants = {
       duration: 0.4
     }
   },
+  hide: {
+    color: 'rgba(0, 0, 0, 0)',
+    fill: 'rgba(0, 0, 0, 0)',
+    transition: {
+      duration: 0.1
+    }
+  },
 }
 
 interface NavbarProps {}
@@ -65,7 +68,7 @@ const Navbar: React.FC<NavbarProps> = () => {
   }, [])
 
   return (
-    <motion.div variants={wrapperVariants} initial="transparent" animate={showMenu ? 'transparent' : mode} className="fixed top-0 left-0 w-full z-50 sm:z-10">
+    <motion.div variants={wrapperVariants} initial="transparent" animate={showMenu ? 'transparent' : mode} className="fixed py-4 sm:py-6 top-0 left-0 w-full z-50 sm:z-10">
       <div className="container flex justify-between items-center">
         <Link href="/">
           <svg className="cursor-pointer h-5 sm:h-8" viewBox="0 0 245 66" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,11 +79,11 @@ const Navbar: React.FC<NavbarProps> = () => {
           </svg>
         </Link>
         <div>
-          <Link href="/about" passHref><motion.a variants={logoVariants} initial="transparent" animate={showMenu ? 'transparent' : mode} className="sm:text-xl mr-5 sm:mr-16">ABOUT</motion.a></Link>
-          <Link href="/works" passHref><motion.a variants={logoVariants} initial="transparent" animate={showMenu ? 'transparent' : mode} className="sm:text-xl">WORKS</motion.a></Link>
+          <Link href="/about" passHref><motion.a variants={logoVariants} initial="transparent" animate={showMenu ? 'hide' : mode} className="sm:text-xl mr-5 sm:mr-16">ABOUT</motion.a></Link>
+          <Link href="/works" passHref><motion.a variants={logoVariants} initial="transparent" animate={showMenu ? 'hide' : mode} className="sm:text-xl">WORKS</motion.a></Link>
         </div>
         <div className="sm:hidden">
-          <FloatMenu />
+          <FloatMenu style={{ transform: 'scale(0.7)' }} />
         </div>
       </div>
     </motion.div>

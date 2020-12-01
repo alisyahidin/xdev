@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { ButtonHTMLAttributes, useEffect } from 'react';
 import Link from 'next/link'
 import { animate, AnimatePresence, motion, useMotionValue } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { useShowMenu } from 'store/menu';
+import { useViewportScroll } from 'framer-motion';
 
 const duration = 0.3
 const menuVariants = (i: number) => ({
@@ -148,20 +149,37 @@ const lineVariants = {
   hide: { strokeDashoffset: 195 }
 }
 
-interface FloatMenuProps {}
+interface FloatMenuProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const FloatMenu: React.FC<FloatMenuProps> = () => {
+export const FloatMenu: React.FC<FloatMenuProps> = props => {
   const strokeColor = useMotionValue<string>('rgb(255, 255, 255)')
   const {showMenu, isAnimating, setShowMenu} = useShowMenu()
+  const { scrollY } = useViewportScroll()
+
+  useEffect(() => {
+    const updateNavbar = (scrollPosition: number) => {
+      if (window.innerWidth < 640) {
+        scrollPosition > window.innerHeight * (7/10)
+          ? !showMenu
+            ? animate(strokeColor, getStrokeColor.light, {})
+            : animate(strokeColor, getStrokeColor.dark, {})
+          : animate(strokeColor, getStrokeColor.dark, {})
+      }
+    }
+    updateNavbar(scrollY.get())
+
+    return scrollY.onChange(updateNavbar)
+  }, [showMenu])
 
   const floatMenuMode = useSelector((state: { floatMenuMode: 'string' }) => state.floatMenuMode);
   useEffect(() => {
-    if (!showMenu) animate(strokeColor, getStrokeColor[floatMenuMode], {})
-    if (showMenu) animate(strokeColor, getStrokeColor.dark, {})
+    if (!showMenu && window.innerWidth >= 640) animate(strokeColor, getStrokeColor[floatMenuMode], {})
+    if (showMenu && window.innerWidth >= 640) animate(strokeColor, getStrokeColor.dark, {})
   }, [floatMenuMode, showMenu])
 
   return (
     <button
+      {...props}
       disabled={isAnimating}
       onClick={() => setShowMenu(!showMenu)}
     >
