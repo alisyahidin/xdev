@@ -227,7 +227,7 @@ const SideMenu: React.FC<SideMenuProps> = () => {
         className="fixed flex h-screen w-screen p-20 z-40"
         style={{ backgroundColor: '#111111' }}
       >
-        <div style={{ color: '#828282' }} className="flex-1 w-full h-full flex flex-col justify-center items-start">
+        <div style={{ color: '#828282' }} className="flex-1 w-full h-full flex flex-col justify-center items-center sm:items-start">
           {menus.map((menu, index) => (
             <Link key={index} href={menu.href} passHref>
               <motion.a
