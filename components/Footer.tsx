@@ -20,7 +20,7 @@ const Footer: React.FC<FooterProps> = ({ bg = 'bg-footer.png' }) => (
   >
     <div className="container h-full flex flex-col justify-between">
       <div className="flex-1 flex items-center justify-center sm:justify-start">
-        <h1 className="text-white text-4xl sm:text-6xl font-bold">
+        <h1 className="underline text-white text-4xl sm:text-6xl font-bold">
           Hello@xdevels.com
         </h1>
       </div>
