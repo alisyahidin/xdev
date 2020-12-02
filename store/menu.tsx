@@ -51,8 +51,8 @@ export const ShowMenuProvider = ({ children }) => {
   return (
     <ShowMenuContext.Provider value={{
       ...state,
-      setShowMenu: value => dispatch({ type: 'UPDATE_SHOW_MENU', value }),
-      setMenuMode: value => dispatch({ type: 'UPDATE_MENU_MODE', value }),
+      setShowMenu: (value: boolean) => dispatch({ type: 'UPDATE_SHOW_MENU', value }),
+      setMenuMode: (value: 'dark' | 'light') => dispatch({ type: 'UPDATE_MENU_MODE', value }),
       finishTransition: () => dispatch({ type: 'FINISH_TRANSITION' }),
     }}>
       {children}
