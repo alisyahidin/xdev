@@ -38,7 +38,7 @@ const Services: React.FC<ServicesProps> = () => {
 
   return (
     <AnimateSharedLayout type="crossfade">
-      <div className="w-full grid sm:grid-cols-4 grid-cols-2 gap-8 sm:gap-16 mb-8 sm:mb-16">
+      <div className="w-full grid md:grid-cols-4 grid-cols-2 gap-8 md:gap-16 mb-8 md:mb-16">
         {ourServices.map(({ image, title }, index) => (
           <div key={index} className="block cursor-pointer z-0">
             <motion.div layoutId={`service-container-${index}`} onClick={() => setActiveIndex(index)} className="block">
@@ -49,10 +49,6 @@ const Services: React.FC<ServicesProps> = () => {
                 src={image}
                 alt={title}
               />
-              {/* <div
-                className="absolute w-full h-full top-0 left-0 rounded-md"
-                style={{ boxShadow: 'rgb(255, 255, 255) 0px -40px 60px -30px inset' }}
-              /> */}
             </motion.div>
             <motion.h3
               animate={{
@@ -64,9 +60,9 @@ const Services: React.FC<ServicesProps> = () => {
                 }
               }}
               style={{ marginTop: -30, opacity: 1, wordWrap: 'break-word' }}
-              className="inline-block text-2xl font-bold leading-7 ml-4"
+              className="inline-block whitespace-pre-line text-2xl lg:text-3xl font-bold leading-8 ml-4"
             >
-              {title}
+              {title.replace(' ', '\n')}
             </motion.h3>
           </div>
         ))}
@@ -91,20 +87,23 @@ const Services: React.FC<ServicesProps> = () => {
                 src={ourServices[activeIndex].image}
                 alt={ourServices[activeIndex].title}
               />
-              <div className="flex-1 my-8 md:my-0 text-center md:text-left md:ml-10">
+              <div className="flex-1 my-8 md:my-0 text-center md:text-left md:mx-6 lg:mx-10">
                 <h3
-                  className="title-center sm:title-left text-2xl font-bold md:leading-7 mb-4"
+                  className="title-center sm:title-left text-2xl lg:text-3xl font-bold md:leading-7 mb-4"
                 >
                   {ourServices[activeIndex].title}
                 </h3>
-                <p className="sm:whitespace-pre-line mb-4">
+                <p className="lg:whitespace-pre-line mb-4">
                   {ourServices[activeIndex].detail}
                 </p>
                 <p>
                   {ourServices[activeIndex].category}
                 </p>
               </div>
-              <svg onClick={() => setActiveIndex(null)} className="cursor-pointer" height="38px" viewBox="0 0 9.9375 8.1761" xmlns="http://www.w3.org/2000/svg">
+              <button onClick={() => setActiveIndex(null)} className="block md:hidden mt-2 ring-2 ring-gray-400 px-8 rounded-sm">
+                OK
+              </button>
+              <svg onClick={() => setActiveIndex(null)} className="hidden md:block cursor-pointer" height="32px" viewBox="0 0 9.9375 8.1761" xmlns="http://www.w3.org/2000/svg">
                 <g transform="translate(-100.03 -144.41)">
                   <g fill="none" stroke="#4F4F4F" strokeWidth="0.8" strokeDasharray="8">
                     <path d="m102.19 145.69 5.6127 5.6127" />
