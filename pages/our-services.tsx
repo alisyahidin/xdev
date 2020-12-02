@@ -83,15 +83,21 @@ const OurServices: React.FC<OurServicesProps> = () => {
         <h2 className="text-3xl sm:text-5xl font-bold mb-12">
           Our Services
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-10 md:gap-56">
+        <div className="grid grid-cols-1 sm:grid-cols-2 grid-rows-6 gap-10 md:gap-24 lg:gap-56">
           {ourServices.map((service, index) => {
             const isEven = (index + 1) % 2 === 0
+            const rowStarts = [
+              'sm:row-start-1',
+              'sm:row-start-2',
+              'sm:row-start-3',
+              'sm:row-start-4',
+            ]
             return (
               <div
                 key={index}
                 className={clsx([
                   'sm:row-span-2 flex flex-col items-start min-h-full',
-                  `sm:row-start-${index + 1}`,
+                  rowStarts[index],
                   isEven ? 'sm:col-start-2 sm:items-end sm:text-right' : 'col-start-1'
                 ])}
               >
@@ -108,7 +114,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
                 >
                   {service.title}
                 </h3>
-                <p className="whitespace-pre-line mb-4">
+                <p className="lg:whitespace-pre-line mb-4">
                   {service.detail}
                 </p>
                 <p className="mb-4" style={{ color: '#AFAAAA' }}>{service.category}</p>
