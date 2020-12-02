@@ -1,7 +1,6 @@
 import React, { ButtonHTMLAttributes, useEffect } from 'react';
 import Link from 'next/link'
 import { animate, AnimatePresence, motion, useMotionValue } from 'framer-motion';
-import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { useShowMenu } from 'store/menu';
 import { useViewportScroll } from 'framer-motion';
@@ -153,7 +152,7 @@ interface FloatMenuProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const FloatMenu: React.FC<FloatMenuProps> = props => {
   const strokeColor = useMotionValue<string>('rgb(255, 255, 255)')
-  const {showMenu, isAnimating, setShowMenu} = useShowMenu()
+  const { showMenu, isAnimating, setShowMenu } = useShowMenu()
   const { scrollY } = useViewportScroll()
 
   useEffect(() => {
@@ -171,7 +170,7 @@ export const FloatMenu: React.FC<FloatMenuProps> = props => {
     return scrollY.onChange(updateNavbar)
   }, [showMenu])
 
-  const floatMenuMode = useSelector((state: { floatMenuMode: 'string' }) => state.floatMenuMode);
+  const { floatMenuMode } = useShowMenu()
   useEffect(() => {
     if (!showMenu && window.innerWidth >= 640) animate(strokeColor, getStrokeColor[floatMenuMode], {})
     if (showMenu && window.innerWidth >= 640) animate(strokeColor, getStrokeColor.dark, {})

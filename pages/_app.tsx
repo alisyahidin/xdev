@@ -1,22 +1,35 @@
 import { AppProps } from 'next/app'
-import 'styles/index.scss'
-import { Provider } from 'react-redux'
+import { useRouter } from 'next/router'
+import { start as startLoading, done as stopLoading, configure } from 'nprogress'
 import Navbar from 'components/Navbar'
 import Menu from 'components/Menu'
-import { useStore } from 'store'
 import { ShowMenuProvider } from 'store/menu'
+import { useEffect } from 'react'
+
+import 'styles/index.scss'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const store = useStore(pageProps.initialReduxState)
+  const router = useRouter()
+
+  useEffect(() => {
+    configure({ showSpinner: false })
+    router.events.on('routeChangeStart', startLoading)
+    router.events.on('routeChangeComplete', stopLoading)
+    router.events.on('routeChangeError', stopLoading)
+
+    return () => {
+      router.events.off('routeChangeStart', startLoading)
+      router.events.off('routeChangeComplete', stopLoading)
+      router.events.off('routeChangeError', stopLoading)
+    }
+  }, [])
 
   return (
-    <Provider store={store}>
-      <ShowMenuProvider>
-        <Navbar />
-        <Menu />
-        <Component {...pageProps} />
-      </ShowMenuProvider>
-    </Provider>
+    <ShowMenuProvider>
+      <Navbar />
+      <Menu />
+      <Component {...pageProps} />
+    </ShowMenuProvider>
   )
 }
 

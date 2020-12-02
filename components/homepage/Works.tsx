@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link'
-import { useDispatch } from 'react-redux'
 import Arrow from 'components/Arrow'
 import { useInView } from 'react-intersection-observer';
+import { useShowMenu } from 'store/menu';
 
 const clients = [
   '/images/work-logo-1.png',
@@ -13,11 +13,11 @@ const clients = [
 interface WorksProps {}
 
 const Works: React.FC<WorksProps> = () => {
-  const dispatch = useDispatch();
+  const { setMenuMode } = useShowMenu()
   const { ref, inView } = useInView({ threshold: 0.72 })
 
   useEffect(() => {
-    dispatch({ type: 'UPDATE_FLOAT_MENU_MODE', mode: inView ? 'light' : 'dark' })
+    setMenuMode(inView ? 'light' : 'dark')
   }, [inView])
 
   return (
