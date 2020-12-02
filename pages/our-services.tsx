@@ -83,7 +83,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
         <h2 className="text-3xl sm:text-5xl font-bold mb-12">
           Our Services
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 grid-rows-6 gap-10 md:gap-24 lg:gap-56">
+        <div className="grid grid-cols-1 sm:grid-cols-2 grid-rows-4 sm:grid-rows-5 gap-10 md:gap-24 lg:gap-56">
           {ourServices.map((service, index) => {
             const isEven = (index + 1) % 2 === 0
             const rowStarts = [

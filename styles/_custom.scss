@@ -46,6 +46,22 @@
       background-color: #C4BEBE;
     }
   }
+  .title-center {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1rem;
+    &::after  {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      translate: -50%;
+      display: block;
+      height: 2px;
+      width: 60%;
+      background-color: #C4BEBE;
+    }
+  }
 }
 
 section {
