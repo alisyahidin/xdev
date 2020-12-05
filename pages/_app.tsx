@@ -1,13 +1,14 @@
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import { useEffect } from 'react'
 import { start as startLoading, done as stopLoading, configure } from 'nprogress'
 import Navbar from 'components/Navbar'
 import Menu from 'components/Menu'
 import { ShowMenuProvider } from 'store/menu'
-import { useEffect } from 'react'
 
 import 'styles/index.scss'
+import 'keen-slider/keen-slider.min.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()

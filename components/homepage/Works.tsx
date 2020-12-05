@@ -1,10 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link'
-import Arrow from 'components/Arrow'
+import dynamic from 'next/dynamic'
 import { useInView } from 'react-intersection-observer';
+import { chunk } from 'lodash'
+import Arrow from 'components/Arrow'
 import { useShowMenu } from 'store/menu';
+import useIsMobile from 'hooks/useIsMobile';
 
-const clients = [
+const Slider = dynamic(() => import('components/Slider'), { ssr: false });
+
+const images = [
+  '/images/work-logo-1.png',
+  '/images/work-logo-2.png',
+  '/images/work-logo-3.png',
   '/images/work-logo-1.png',
   '/images/work-logo-2.png',
   '/images/work-logo-3.png',
@@ -15,9 +23,13 @@ interface WorksProps {}
 const Works: React.FC<WorksProps> = () => {
   const { setMenuMode } = useShowMenu()
   const { ref, inView } = useInView({ threshold: 0.72 })
+  const isMobile = useIsMobile()
+
+  const [clients, setClients] = useState<Array<string[]> | []>([]);
 
   useEffect(() => {
     setMenuMode(inView ? 'light' : 'dark')
+    setClients(chunk(images, isMobile ? 1 : 2))
   }, [inView])
 
   return (
@@ -46,11 +58,13 @@ const Works: React.FC<WorksProps> = () => {
         <div className="flex-1 text-black">
           <div ref={ref} className="flex flex-col sm:our-client bg-white h-full p-8 rounded-lg sm:rounded-tl-lg sm:rounded-bl-lg sm:rounded-rl-none sm:rounded-br-lg">
             <h3 className="text-2xl sm:text-3xl mb-8">Our Clients</h3>
-            <div className="flex-1 flex flex-wrap items-center sm:w-4/6">
-              {clients.map((src, index) => (
-                <img className="sm:h-16 mr-12" src={src} alt={`${index}`} key={index} />
+            <Slider options={{ spacing: 20, slidesPerView: isMobile ? 3 : 2 }} className="flex-1 sm:w-4/6">
+              {(clients as Array<string[]>).map((data: string[], index: number) => (
+                <div className="keen-slider__slide flex flex-col justify-around items-start" key={index}>
+                  {data.map((src: string, index: number) => <img className="" key={index} src={src} alt={`${index}`} />)}
+                </div>
               ))}
-            </div>
+            </Slider>
           </div>
         </div>
       </div>

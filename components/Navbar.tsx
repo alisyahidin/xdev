@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, useViewportScroll } from 'framer-motion';
 import { FloatMenu } from './Menu';
 import { useShowMenu } from 'store/menu';
+import useIsMobile from 'hooks/useIsMobile';
 
 const wrapperVariants = {
   transparent: {
@@ -57,13 +58,11 @@ interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
   const [mode, setMode] = useState<string>('transparent')
-  const [isMobile, setIsMobile] = useState<boolean | null>(null)
   const { scrollY } = useViewportScroll()
   const { showMenu, setShowMenu } = useShowMenu()
+  const isMobile = useIsMobile()
 
   useEffect(() => {
-    setIsMobile(window.innerWidth < 640)
-
     const updateNavbar = (scrollPosition: number) => setMode(scrollPosition > window.innerHeight * (7/10) ? 'white' : 'transparent')
     updateNavbar(scrollY.get())
 
