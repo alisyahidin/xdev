@@ -62,7 +62,7 @@ const Works: React.FC<WorksProps> = () => {
             <h3 className="text-2xl sm:text-3xl mb-8">Our Clients</h3>
             <Slider options={{ spacing: 20, slidesPerView }} className="flex-1 sm:w-4/6">
               {(clients as Array<string[]>).map((data: string[], index: number) => (
-                <div className="keen-slider__slide flex flex-col justify-around items-start" key={index}>
+                <div className="keen-slider__slide flex flex-col justify-around items-center sm:items-start" key={index}>
                   {data.map((src: string, index: number) => <img className="" key={index} src={src} alt={`${index}`} />)}
                 </div>
               ))}
