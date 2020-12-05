@@ -26,10 +26,12 @@ const Works: React.FC<WorksProps> = () => {
   const isMobile = useIsMobile()
 
   const [clients, setClients] = useState<Array<string[]> | []>([]);
+  const [slidesPerView, setSlidesPerView] = useState<number>(2);
 
   useEffect(() => {
     setMenuMode(inView ? 'light' : 'dark')
     setClients(chunk(images, isMobile ? 1 : 2))
+    setSlidesPerView(isMobile ? 3 : 2)
   }, [inView])
 
   return (
@@ -58,7 +60,7 @@ const Works: React.FC<WorksProps> = () => {
         <div className="flex-1 text-black">
           <div ref={ref} className="flex flex-col sm:our-client bg-white h-full p-8 rounded-lg sm:rounded-tl-lg sm:rounded-bl-lg sm:rounded-rl-none sm:rounded-br-lg">
             <h3 className="text-2xl sm:text-3xl mb-8">Our Clients</h3>
-            <Slider options={{ spacing: 20, slidesPerView: isMobile ? 3 : 2 }} className="flex-1 sm:w-4/6">
+            <Slider options={{ spacing: 20, slidesPerView }} className="flex-1 sm:w-4/6">
               {(clients as Array<string[]>).map((data: string[], index: number) => (
                 <div className="keen-slider__slide flex flex-col justify-around items-start" key={index}>
                   {data.map((src: string, index: number) => <img className="" key={index} src={src} alt={`${index}`} />)}
