@@ -5,6 +5,7 @@ import OurServices from 'components/homepage/OurServices';
 import Works from 'components/homepage/Works';
 import About from 'components/homepage/About';
 import Footer from 'components/Footer';
+import Hero from 'components/homepage/Hero';
 
 const Home: React.FC<{}> = () => {
   return (<>
@@ -13,21 +14,9 @@ const Home: React.FC<{}> = () => {
     </Head>
     <Section
       id="home"
-      className="h-screen"
-      style={{
-        backgroundImage: 'url(/images/bg-head.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
+      className="h-screen relative"
     >
-      <div className="container h-full flex items-center">
-        <h1 className="text-white text-4xl sm:text-6xl font-bold">
-          We Move <br/>
-          Digital Industry <br/>
-          Forward <br/>
-        </h1>
-      </div>
+      <Hero />
     </Section>
     <Section
       id="services"

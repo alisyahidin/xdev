@@ -66,6 +66,6 @@
   }
 }
 
-section {
+section:not(#home) {
   padding-top: 2.5rem;
 }

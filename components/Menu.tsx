@@ -206,7 +206,12 @@ export const FloatMenu: React.FC<FloatMenuProps> = props => {
 interface SideMenuProps {}
 
 const SideMenu: React.FC<SideMenuProps> = () => {
-  const {showMenu, finishTransition, setShowMenu} = useShowMenu()
+  const {showMenu, isAnimating, finishTransition, setShowMenu} = useShowMenu()
+
+  useEffect(() => {
+    if (showMenu && !isAnimating) document.documentElement.style.scrollBehavior = 'smooth'
+    if (!showMenu && !isAnimating) document.documentElement.style.scrollBehavior = null
+  }, [showMenu, isAnimating])
 
   return (<>
     <div

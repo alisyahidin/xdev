@@ -3,14 +3,20 @@ import { TOptionsEvents } from 'keen-slider'
 import { useKeenSlider } from 'keen-slider/react'
 import clsx from 'clsx';
 
+interface Options extends TOptionsEvents {
+  delay?: number
+}
+
 interface SliderProps extends ComponentProps<'div'> {
-  options?: TOptionsEvents
+  options?: Options,
+  controller?: any
 }
 
 const Slider: React.FC<SliderProps> = ({
   className,
   children,
-  options
+  options,
+  controller = null
 }) => {
   const [pause, setPause] = useState(false)
   const timer = useRef(null)
@@ -28,19 +34,23 @@ const Slider: React.FC<SliderProps> = ({
   })
 
   useEffect(() => {
-    sliderRef.current.addEventListener("mouseover", () => setPause(true))
-    sliderRef.current.addEventListener("mouseout", () => setPause(false))
+    (controller && slider !== null) && controller(slider)
+  }, [slider])
+
+  useEffect(() => {
+    sliderRef.current?.addEventListener("mouseover", () => setPause(true))
+    sliderRef.current?.addEventListener("mouseout", () => setPause(false))
 
     return () => {
-      sliderRef.current.removeEventListener('mouseover', () => setPause(true))
-      sliderRef.current.removeEventListener('mouseout', () => setPause(false))
+      sliderRef.current?.removeEventListener('mouseover', () => setPause(true))
+      sliderRef.current?.removeEventListener('mouseout', () => setPause(false))
     }
-  }, [sliderRef])
+  }, [])
 
   useEffect(() => {
     timer.current = setInterval(() => {
       if (!pause && slider) slider.next()
-    }, 2000)
+    }, options.delay ?? 2000)
 
     return () => clearInterval(timer.current)
   }, [pause, slider])
