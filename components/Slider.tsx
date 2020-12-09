@@ -12,15 +12,20 @@ export interface SliderAction {
 interface SliderProps extends ComponentProps<'div'> {
   children: ReactElement[] | ReactElement,
   slidesToShow?: number,
-  sliderRef?: any
+  sliderRef?: any,
+  duration?: number
 }
 
 const Slider: React.FC<SliderProps> = ({
   children,
   slidesToShow = 1,
   sliderRef = null,
+  duration = 0.5,
   className
 }) => {
+  const childrens = Children.toArray(children)
+  const animatable = childrens.length > slidesToShow
+
   const isAnimating = useMotionValue<boolean>(false)
   const x = useMotionValue<string>('-100%')
   const pagination = useMotionValue<[number, number]>([slidesToShow, 0])
@@ -28,20 +33,21 @@ const Slider: React.FC<SliderProps> = ({
     if (!isAnimating.get()) pagination.set([pagination.get()[0] + newDirection, newDirection])
   }
 
-  const childrens = Children.toArray(children)
   useEffect(() => {
+    x.set(animatable ? '-100%' : '0%')
+
     if (sliderRef !== null) {
-      sliderRef.current.prev = () => paginate(-1)
-      sliderRef.current.next = () => paginate(1)
+      sliderRef.current.prev = () => animatable && paginate(-1)
+      sliderRef.current.next = () => animatable && paginate(1)
     }
 
     return pagination.onChange(([page, direction]) => {
       isAnimating.set(true)
-      const shouldStartAnimation = pagination.get()[0] < childrens.length + 2
+      const shouldStartAnimation = pagination.get()[0] < childrens.length + 2 && pagination.get()[0] >= 0
       const pageOdd = page % (childrens.length + 2)
       const newX = `${-Math.abs(direction * pageOdd * (100 / slidesToShow))}%`
       const control = shouldStartAnimation && animate(x, newX, {
-        duration: 0.5,
+        duration,
         onComplete: () => {
           if (pageOdd === childrens.length + 1) {
             x.set(`${-(100 / slidesToShow)}%`)
@@ -57,12 +63,16 @@ const Slider: React.FC<SliderProps> = ({
 
       return control.stop
     })
-  }, [])
+  }, [animatable])
+
+  const data = animatable
+    ? [...childrens.slice(childrens.length - slidesToShow), ...childrens, ...childrens.slice(0, slidesToShow)]
+    : [...childrens]
 
   return (
     <div className={clsx(["overflow-hidden", className])}>
       <motion.div ref={sliderRef} style={{ x }} className="flex h-full">
-        {[...childrens.slice(childrens.length - slidesToShow), ...childrens, ...childrens.slice(0, slidesToShow)].map((child: ReactElement, index: number) => (
+        {data.map((child: ReactElement, index: number) => (
           <div key={index} style={{ width: `${100 / slidesToShow}%` }} className="flex-shrink-0">
             {child}
           </div>
