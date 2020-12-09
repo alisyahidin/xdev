@@ -8,7 +8,6 @@ import Menu from 'components/Menu'
 import { ShowMenuProvider } from 'store/menu'
 
 import 'styles/index.scss'
-import 'keen-slider/keen-slider.min.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()

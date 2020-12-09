@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import Slider from 'components/Slider';
+import Slider, { SliderAction } from 'components/Slider';
 
 const heros = [
   {
@@ -19,14 +19,14 @@ const heros = [
 interface HeroProps {}
 
 const Hero: React.FC<HeroProps> = () => {
-  const slider = useRef(null)
+  const slider = useRef<SliderAction>(null)
 
   return (<>
-    <Slider controller={controller => slider.current = controller} options={{ slidesPerView: 1, duration: 2500, delay: 4600 }} className="flex-1 w-full h-full">
+    <Slider sliderRef={slider} className="h-full">
       {heros.map((hero, index) => (
         <div
           key={index}
-          className="keen-slider__slide"
+          className="h-full"
           style={{
             backgroundImage: `url(${hero.img})`,
             backgroundSize: 'cover',

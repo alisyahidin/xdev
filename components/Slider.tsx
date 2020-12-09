@@ -1,66 +1,73 @@
-import { ComponentProps, useEffect, useRef, useState } from 'react';
-import { TOptionsEvents } from 'keen-slider'
-import { useKeenSlider } from 'keen-slider/react'
+import React, { ReactElement, Children, useEffect, ComponentProps } from 'react';
+import { animate, motion, useMotionValue } from 'framer-motion'
 import clsx from 'clsx';
 
-interface Options extends TOptionsEvents {
-  delay?: number
+type Direction = 0 | 1 | -1
+
+export interface SliderAction {
+  prev: () => void
+  next: () => void
 }
 
 interface SliderProps extends ComponentProps<'div'> {
-  options?: Options,
-  controller?: any
+  children: ReactElement[] | ReactElement,
+  slidesToShow?: number,
+  sliderRef?: any
 }
 
 const Slider: React.FC<SliderProps> = ({
-  className,
   children,
-  options,
-  controller = null
+  slidesToShow = 1,
+  sliderRef = null,
+  className
 }) => {
-  const [pause, setPause] = useState(false)
-  const timer = useRef(null)
-  const [sliderRef, slider] = useKeenSlider({
-    loop: true,
-    slidesPerView: 2,
-    duration: 1000,
-    ...options,
-    dragStart: () => {
-      setPause(true)
-    },
-    dragEnd: () => {
-      setPause(false)
-    },
-  })
+  const isAnimating = useMotionValue<boolean>(false)
+  const x = useMotionValue<string>('-100%')
+  const pagination = useMotionValue<[number, number]>([slidesToShow, 0])
+  const paginate = (newDirection: Direction) => {
+    if (!isAnimating.get()) pagination.set([pagination.get()[0] + newDirection, newDirection])
+  }
 
+  const childrens = Children.toArray(children)
   useEffect(() => {
-    (controller && slider !== null) && controller(slider)
-  }, [slider])
-
-  useEffect(() => {
-    sliderRef.current?.addEventListener("mouseover", () => setPause(true))
-    sliderRef.current?.addEventListener("mouseout", () => setPause(false))
-
-    return () => {
-      sliderRef.current?.removeEventListener('mouseover', () => setPause(true))
-      sliderRef.current?.removeEventListener('mouseout', () => setPause(false))
+    if (sliderRef !== null) {
+      sliderRef.current.prev = () => paginate(-1)
+      sliderRef.current.next = () => paginate(1)
     }
+
+    return pagination.onChange(([page, direction]) => {
+      isAnimating.set(true)
+      const shouldStartAnimation = pagination.get()[0] < childrens.length + 2
+      const pageOdd = page % (childrens.length + 2)
+      const newX = `${-Math.abs(direction * pageOdd * (100 / slidesToShow))}%`
+      const control = shouldStartAnimation && animate(x, newX, {
+        duration: 0.5,
+        onComplete: () => {
+          if (pageOdd === childrens.length + 1) {
+            x.set(`${-(100 / slidesToShow)}%`)
+            pagination.set([1, direction])
+          }
+          if (pageOdd === 0) {
+            x.set(`${-childrens.length * (100 / slidesToShow)}%`)
+            pagination.set([childrens.length, direction])
+          }
+          isAnimating.set(false)
+        }
+      })
+
+      return control.stop
+    })
   }, [])
 
-  useEffect(() => {
-    timer.current = setInterval(() => {
-      if (!pause && slider) slider.next()
-    }, options.delay ?? 2000)
-
-    return () => clearInterval(timer.current)
-  }, [pause, slider])
-
   return (
-    <div
-      ref={sliderRef as React.LegacyRef<HTMLDivElement>}
-      className={clsx(['keen-slider', className])}
-    >
-      {children}
+    <div className={clsx(["overflow-hidden", className])}>
+      <motion.div ref={sliderRef} style={{ x }} className="flex h-full">
+        {[...childrens.slice(childrens.length - slidesToShow), ...childrens, ...childrens.slice(0, slidesToShow)].map((child: ReactElement, index: number) => (
+          <div key={index} style={{ width: `${100 / slidesToShow}%` }} className="flex-shrink-0">
+            {child}
+          </div>
+        ))}
+      </motion.div>
     </div>
   );
 };

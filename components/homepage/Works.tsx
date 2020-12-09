@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 import { useInView } from 'react-intersection-observer';
 import { chunk } from 'lodash'
 import Arrow from 'components/Arrow'
 import { useShowMenu } from 'store/menu';
 import useIsMobile from 'hooks/useIsMobile';
-
-const Slider = dynamic(() => import('components/Slider'), { ssr: false });
+import Slider from 'components/Slider';
 
 const images = [
   '/images/work-logo-1.png',
@@ -60,9 +58,9 @@ const Works: React.FC<WorksProps> = () => {
         <div className="flex-1 text-black">
           <div ref={ref} className="flex flex-col sm:our-client bg-white h-full p-8 rounded-lg sm:rounded-tl-lg sm:rounded-bl-lg sm:rounded-rl-none sm:rounded-br-lg">
             <h3 className="text-2xl sm:text-3xl mb-8">Our Clients</h3>
-            <Slider options={{ spacing: 20, slidesPerView }} className="flex-1 sm:w-4/6">
+            <Slider slidesToShow={slidesPerView} className="flex-1 h-full sm:w-4/6">
               {(clients as Array<string[]>).map((data: string[], index: number) => (
-                <div className="keen-slider__slide flex flex-col justify-around items-center sm:items-start" key={index}>
+                <div className="flex flex-col justify-around items-center sm:items-start h-full" key={index}>
                   {data.map((src: string, index: number) => <img className="" key={index} src={src} alt={`${index}`} />)}
                 </div>
               ))}
