@@ -1,47 +1,51 @@
 import React from 'react';
 import Head from 'next/head';
+import useSWR from 'swr'
 import Section from 'components/Section';
 import Footer from 'components/Footer';
 import clsx from 'clsx';
+import fetchQuery from 'lib/fetchQuery';
 
-export const ourServices = [
-  {
-    title: 'Product Development',
-    detail: `Nisl condimentum id venenatis a. Nec tincidunt
-      raesent semper feugiat nibh sed pulvinar proin
-      gravida. Sollicitudin tempor id eu nisl nunc.`,
-    category: 'UI/UX Design. Website',
-    image: '/images/service-1.png',
-  },
-  {
-    title: 'User Experience',
-    detail: `Nisl condimentum id venenatis a. Nec tincidunt
-      raesent semper feugiat nibh sed pulvinar proin
-      gravida. Sollicitudin tempor id eu nisl nunc.`,
-    category: 'UI/UX Design. Website',
-    image: '/images/service-2.png',
-  },
-  {
-    title: 'SEO Optimization',
-    detail: `Nisl condimentum id venenatis a. Nec tincidunt
-      raesent semper feugiat nibh sed pulvinar proin
-      gravida. Sollicitudin tempor id eu nisl nunc.`,
-    category: 'UI/UX Design. Website',
-    image: '/images/service-3.png',
-  },
-  {
-    title: 'Co Creation',
-    detail: `Nisl condimentum id venenatis a. Nec tincidunt
-      raesent semper feugiat nibh sed pulvinar proin
-      gravida. Sollicitudin tempor id eu nisl nunc.`,
-    category: 'UI/UX Design. Website',
-    image: '/images/service-4.png',
-  },
-]
+const query = `
+  query MyQuery {
+    page(idType: URI, id: "our-services") {
+      ourservice {
+        services {
+          title
+          image {
+            sourceUrl
+          }
+          description
+          category
+        }
+      }
+    }
+  }`
 
-interface OurServicesProps {}
+export const getServerSideProps = async () => {
+  const { data: { page } } = await fetchQuery(query)
+  return { props : { data: page } }
+}
 
-const OurServices: React.FC<OurServicesProps> = () => {
+type Service = {
+  title: string,
+  image: {
+    sourceUrl: string
+  },
+  description: string,
+  category: string
+}
+interface OurServicesProps {
+  data: {
+    ourservice: {
+      services: Service[]
+    }
+  }
+}
+
+const OurServices: React.FC<OurServicesProps> = ({ data: initialData }) => {
+  const { data } = useSWR(query, gqlQuery => fetchQuery(gqlQuery).then(res => res?.data?.page), { initialData })
+
   return (<>
     <Head>
       <title>Our Services - xDev</title>
@@ -84,7 +88,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
           Our Services
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 grid-rows-4 sm:grid-rows-5 gap-10 md:gap-24 lg:gap-56">
-          {ourServices.map((service, index) => {
+          {data.ourservice.services.map((service: Service, index: number) => {
             const isEven = (index + 1) % 2 === 0
             const rowStarts = [
               'sm:row-start-1',
@@ -103,7 +107,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
               >
                 <img
                   className="mb-8 w-full sm:width-420 h-72 sm:height-640 object-cover"
-                  src={service.image}
+                  src={service.image.sourceUrl}
                   alt={service.title}
                 />
                 <h3
@@ -115,7 +119,7 @@ const OurServices: React.FC<OurServicesProps> = () => {
                   {service.title}
                 </h3>
                 <p className="lg:whitespace-pre-line mb-4">
-                  {service.detail}
+                  {service.description}
                 </p>
                 <p className="mb-4" style={{ color: '#AFAAAA' }}>{service.category}</p>
               </div>
