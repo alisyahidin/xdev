@@ -1,34 +1,22 @@
 import React, { useRef } from 'react';
 import Slider, { SliderAction } from 'components/Slider';
 
-const heros = [
-  {
-    title: `We Move
-      Digital Industry
-      Forward`,
-    img: '/images/bg-head.png'
-  },
-  {
-    title: `We Move
-      Digital Industry
-      Forward`,
-    img: '/images/bg-head.png'
-  },
-]
+type Hero = { image: { sourceUrl: string }, title: string }
+interface HeroProps {
+  data: Hero[]
+}
 
-interface HeroProps {}
-
-const Hero: React.FC<HeroProps> = () => {
+const Hero: React.FC<HeroProps> = ({ data }) => {
   const slider = useRef<SliderAction>(null)
 
   return (<>
     <Slider sliderRef={slider} className="h-full">
-      {heros.map((hero, index) => (
+      {data.map((hero, index) => (
         <div
           key={index}
           className="h-full"
           style={{
-            backgroundImage: `url(${hero.img})`,
+            backgroundImage: `url(${hero.image.sourceUrl})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat'

@@ -2,17 +2,24 @@ import React, { useState } from 'react';
 import Link from 'next/link'
 import Arrow from 'components/Arrow'
 import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
-import { ourServices } from 'pages/our-services'
 
-interface OurServicesProps {}
+type Service = {
+  title: string,
+  image: { sourceUrl: string },
+  category: string,
+  description: string,
+}
+interface OurServicesProps {
+  data: Service[]
+}
 
-const OurServices: React.FC<OurServicesProps> = () => {
+const OurServices: React.FC<OurServicesProps> = ({ data }) => {
   return (
     <div className="container h-full flex flex-col items-start justify-center my-16">
       <h2 className="text-3xl sm:text-5xl font-bold mb-16">
         Our Services
       </h2>
-      <Services />
+      <Services data={data} />
       <div className="flex flex-col sm:flex-row sm:items-center w-full mt-12">
         <div className="sm:w-8/12">
           <h3 style={{ color: '#333' }} className="text-2xl sm:text-3xl mb-4">
@@ -31,22 +38,24 @@ const OurServices: React.FC<OurServicesProps> = () => {
   );
 };
 
-interface ServicesProps {}
+interface ServicesProps {
+  data: Service[]
+}
 
-const Services: React.FC<ServicesProps> = () => {
+const Services: React.FC<ServicesProps> = ({ data }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   return (
     <AnimateSharedLayout type="crossfade">
       <div className="w-full grid md:grid-cols-4 grid-cols-2 gap-8 md:gap-16 mb-8 md:mb-16">
-        {ourServices.map(({ image, title }, index) => (
+        {data.map(({ image, title }, index) => (
           <div key={index} className="block cursor-pointer z-0">
             <motion.div layoutId={`service-container-${index}`} onClick={() => setActiveIndex(index)} className="block">
               <motion.img
                 layoutId={`image-${index}`}
                 style={{ borderRadius: 5 }}
                 className="w-full"
-                src={image}
+                src={image.sourceUrl}
                 alt={title}
               />
             </motion.div>
@@ -84,20 +93,20 @@ const Services: React.FC<ServicesProps> = () => {
                 layoutId={`image-${activeIndex}`}
                 animate={{ borderRadius: 0 }}
                 className="lg:h-96"
-                src={ourServices[activeIndex].image}
-                alt={ourServices[activeIndex].title}
+                src={data[activeIndex].image.sourceUrl}
+                alt={data[activeIndex].title}
               />
               <div className="flex-1 my-8 md:my-0 text-center md:text-left md:mx-6 lg:mx-10">
                 <h3
                   className="title-center sm:title-left text-2xl lg:text-3xl font-bold md:leading-7 mb-4"
                 >
-                  {ourServices[activeIndex].title}
+                  {data[activeIndex].title}
                 </h3>
                 <p className="lg:whitespace-pre-line mb-4">
-                  {ourServices[activeIndex].detail}
+                  {data[activeIndex].description}
                 </p>
                 <p>
-                  {ourServices[activeIndex].category}
+                  {data[activeIndex].category}
                 </p>
               </div>
               <button onClick={() => setActiveIndex(null)} className="block md:hidden mt-2 ring-2 ring-gray-400 px-8 rounded-sm">
