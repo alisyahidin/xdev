@@ -1,36 +1,29 @@
 import React from 'react';
 import Head from 'next/head';
+import useSWR from 'swr'
 import Section from 'components/Section';
 import clsx from 'clsx';
 import Footer from 'components/Footer';
+import fetchQuery from 'lib/fetchQuery';
 
-const data = [
-  {
-    title: 'Hakuhodo : H3',
-    detail: `H:Three is Hakuhodo’s fifth agency in Indonesia.
-      Within its first year, H:Three has managed to acquire
-      several local and International clients.`,
-    category: 'UI/UX Design. Website.',
-    logo: '/images/work-logo-1.png',
-    preview: '/images/work-1.png'
-  },
-  {
-    title: 'InterBIO',
-    detail: `interBIO is the leading identity management
-      biometric software solutions company.`,
-    category: 'UI/UX Design. Website.',
-    logo: '/images/work-logo-2.png',
-    preview: '/images/work-2.png'
-  },
-  {
-    title: 'WAN Solution',
-    detail: `WAN Solutions was a system integrator company which has
-      extensive exposures to the technology driven solutions.`,
-    category: 'UI/UX Design. Website.',
-    logo: '/images/work-logo-3.png',
-    preview: '/images/work-3.png'
-  },
-]
+const query = `
+  query MyQuery {
+    page(idType: URI, id: "works") {
+      works {
+        clients {
+          title
+          image {
+            sourceUrl
+          }
+          logo {
+            sourceUrl
+          }
+          description
+          category
+        }
+      }
+    }
+  }`
 
 const testimonials = [
   {
@@ -43,9 +36,33 @@ const testimonials = [
   }
 ]
 
-interface WorksProps {}
+export const getServerSideProps = async () => {
+  const { data: { page } } = await fetchQuery(query)
+  return { props : { data: page } }
+}
 
-const Works: React.FC<WorksProps> = () => {
+type Client = {
+  title: string,
+  image: {
+    sourceUrl: string
+  },
+  logo: {
+    sourceUrl: string
+  },
+  description: string,
+  category: string
+}
+interface WorksProps {
+  data: {
+    works: {
+      clients: Client[]
+    }
+  }
+}
+
+const Works: React.FC<WorksProps> = ({ data: initialData }) => {
+  const { data } = useSWR(query, gqlQuery => fetchQuery(gqlQuery).then(res => res?.data?.page), { initialData })
+
   return (<>
     <Head>
       <title>Works - xDev</title>
@@ -74,15 +91,15 @@ const Works: React.FC<WorksProps> = () => {
         <h2 className="text-3xl sm:text-5xl font-bold mb-12">
           Works
         </h2>
-        {data.map((work, index) => {
+        {data.works.clients.map((client: Client, index: number) => {
           const isEven = (index + 1) % 2 === 0
           return (
             <div className={clsx(["flex flex-col sm:flex-row mb-20", isEven && 'justify-end'])} key={index}>
               <div className="relative">
                 <img
                   className="w-full"
-                  src={work.preview}
-                  alt={work.title}
+                  src={client.image.sourceUrl}
+                  alt={client.title}
                 />
                 <div
                   className={clsx(["absolute flex justify-center items-center bg-white bottom-0 right-0", isEven ? 'lg:right-full' : 'lg:left-full'])}
@@ -90,8 +107,8 @@ const Works: React.FC<WorksProps> = () => {
                 >
                   <img
                     className="max-w-full max-h-full"
-                    src={work.logo}
-                    alt={work.title}
+                    src={client.logo.sourceUrl}
+                    alt={client.title}
                   />
                 </div>
               </div>
@@ -102,10 +119,10 @@ const Works: React.FC<WorksProps> = () => {
                     isEven && 'sm:title-right'
                   ])}
                 >
-                  {work.title}
+                  {client.title}
                 </h3>
-                <p className="whitespace-pre-line leading-7 mb-4">{work.detail}</p>
-                <p className="mb-4" style={{ color: '#AFAAAA' }}>{work.category}</p>
+                <p className="whitespace-pre-line leading-7 mb-4">{client.description}</p>
+                <p className="mb-4" style={{ color: '#AFAAAA' }}>{client.category}</p>
               </div>
             </div>
           )
